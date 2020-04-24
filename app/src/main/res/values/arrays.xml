@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wanandroid_main_titles">
+        <item>博文</item>
+        <item>项目</item>
+        <item>分享</item>
+        <item>问答</item>
+    </string-array>
+</resources>
