@@ -11,5 +11,9 @@ data class MainArticle(
     val pageCount: Int,
     val size: Int,
     val total: Int
-)
+) {
+    fun hasMore(): Boolean {
+        return pageCount > curPage
+    }
+}
 

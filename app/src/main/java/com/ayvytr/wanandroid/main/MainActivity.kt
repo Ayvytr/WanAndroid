@@ -43,4 +43,9 @@ class MainActivity : BaseCoroutineActivity<BaseViewModel>() {
         return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
+    override fun onBackPressed() {
+        moveTaskToBack(false)
+//        super.onBackPressed()
+    }
 }

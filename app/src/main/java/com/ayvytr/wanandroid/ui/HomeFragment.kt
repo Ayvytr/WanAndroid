@@ -11,10 +11,11 @@ import com.ayvytr.coroutine.BaseCoroutineFragment
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.main.ui.home.HomeSecondFragment
+import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
-    private val fragments = listOf(HomeSecondFragment(), HomeSecondFragment())
+    private val fragments = listOf(ArticleFragment(), HomeSecondFragment())
 
     override fun onCreateView(
         inflater: LayoutInflater,

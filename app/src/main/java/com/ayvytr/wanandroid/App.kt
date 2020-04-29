@@ -10,6 +10,6 @@ import com.ayvytr.network.ApiClient
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        ApiClient.getInstance().init(Const.WANANDROID_BASE_URL, 20)
+        ApiClient.getInstance().init(Const.WANANDROID_BASE_URL, 20, cache=null)
     }
 }
