@@ -77,11 +77,7 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
         mViewModel.articleLiveData.observe(this, Observer {
 //            articleAdapter.submitList(it)
             page = it.page
-            if (it.isLoadMore) {
-                articleAdapter.addAll(it.list)
-            } else {
-                articleAdapter.update(it.list)
-            }
+            articleAdapter.update(it.list, it.isLoadMore)
             refresh_layout.setEnableLoadMore(it.hasMore)
         })
         mViewModel.getMainArticle(page, true)
