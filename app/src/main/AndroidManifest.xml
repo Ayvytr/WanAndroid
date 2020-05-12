@@ -13,13 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.SecondActivity"
-            android:label="@string/title_activity_second"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ui.webview.WebViewActivity"
+            android:launchMode="singleTop">
+<!--            android:process=".webview"-->
+<!--            android:theme="@style/AppTheme.WebView">-->
 
         </activity>
         <activity
-            android:name=".welcome.WelcomeActivity"
+            android:name=".ui.welcome.WelcomeActivity"
             android:theme="@style/AppTheme.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,9 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity">
-
-        </activity>
+        <activity android:name="com.ayvytr.wanandroid.ui.main.MainActivity"></activity>
     </application>
 
 </manifest>

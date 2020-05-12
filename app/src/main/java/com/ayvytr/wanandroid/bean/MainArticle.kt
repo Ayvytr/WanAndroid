@@ -5,7 +5,7 @@ package com.ayvytr.wanandroid.bean
  */
 data class MainArticle(
     val curPage: Int,
-    val datas: List<Article>,
+    var datas: List<Article>,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,

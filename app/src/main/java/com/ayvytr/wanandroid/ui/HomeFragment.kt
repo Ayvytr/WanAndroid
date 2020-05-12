@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
-import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.coroutine.BaseCoroutineFragment
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
-import com.ayvytr.wanandroid.main.ui.home.HomeSecondFragment
+import com.ayvytr.wanandroid.ui.main.ui.home.HomeSecondFragment
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 

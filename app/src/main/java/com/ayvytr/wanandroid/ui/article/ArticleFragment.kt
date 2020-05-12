@@ -11,10 +11,12 @@ import com.ayvytr.coroutine.BaseCoroutineFragment
 import com.ayvytr.ktx.ui.show
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
+import com.ayvytr.wanandroid.ui.webview.WebViewActivity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.android.synthetic.main.fragment_artile.*
 import kotlinx.android.synthetic.main.item_article.view.*
+import org.jetbrains.anko.startActivity
 
 /**
  * @author EDZ
@@ -28,6 +30,10 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
             tv_desc.text = it.desc
             tv_desc.show(it.title != it.desc)
         }) {
+            itemClick = { t, i ->
+                context!!.startActivity<WebViewActivity>(WebViewActivity.URL to t.link,
+                                                         WebViewActivity.TITLE to t.title)
+            }
         }
     }
 
@@ -78,6 +84,8 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
 //            articleAdapter.submitList(it)
             page = it.page
             articleAdapter.update(it.list, it.isLoadMore)
+
+            status_view.showContent()
             refresh_layout.setEnableLoadMore(it.hasMore)
         })
         mViewModel.getMainArticle(page, true)
@@ -88,9 +96,21 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
     }
 
     override fun showLoading(isShow: Boolean) {
-        if (!isShow) {
+        if(isShow) {
+            if(articleAdapter.isEmpty()) {
+                status_view.showLoading()
+            }
+        }
+        else {
             refresh_layout.finishRefresh()
             refresh_layout.finishLoadMore()
+        }
+    }
+
+    override fun showMessage(message: String) {
+        super.showMessage(message)
+        if(articleAdapter.isEmpty()) {
+            status_view.showError(message)
         }
     }
 }

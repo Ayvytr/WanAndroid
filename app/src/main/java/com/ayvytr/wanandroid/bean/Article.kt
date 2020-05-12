@@ -1,5 +1,8 @@
 package com.ayvytr.wanandroid.bean
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 /**
  * 其中有两个易混淆的字段:
  * "superChapterId": 153,
@@ -13,7 +16,9 @@ package com.ayvytr.wanandroid.bean
  * 注意：除了文字标题，链接，其他字段都可能为null，一定要注意布局下发 null 时的显示情况。
  *
  */
+@Entity
 data class Article(
+    @PrimaryKey
     val id: Int,
     val title: String,
     val link: String,
@@ -40,7 +45,7 @@ data class Article(
     val shareUser: String?,
     val superChapterId: Int,
     val superChapterName: String,
-    val tags: List<Tag>,
+//    val tags: List<Tag>,
     val type: Int,
     val userId: Int,
     val visible: Int,

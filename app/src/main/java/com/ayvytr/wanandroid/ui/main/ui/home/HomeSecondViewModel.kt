@@ -1,4 +1,4 @@
-package com.ayvytr.wanandroid.main.ui.home
+package com.ayvytr.wanandroid.ui.main.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.ayvytr.wanandroid.main
+package com.ayvytr.wanandroid.ui.main
 
 import android.os.Bundle
 import androidx.navigation.findNavController
@@ -8,11 +8,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ayvytr.coroutine.BaseCoroutineActivity
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
-import com.ayvytr.ktx.ui.getContext
 import com.ayvytr.wanandroid.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import org.jetbrains.anko.alert
 
 class MainActivity : BaseCoroutineActivity<BaseViewModel>() {
 

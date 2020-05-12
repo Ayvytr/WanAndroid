@@ -1,10 +1,9 @@
-package com.ayvytr.wanandroid.welcome
+package com.ayvytr.wanandroid.ui.welcome
 
 import android.os.Bundle
 import com.ayvytr.coroutine.BaseCoroutineActivity
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
-import com.ayvytr.wanandroid.R
-import com.ayvytr.wanandroid.main.MainActivity
+import com.ayvytr.wanandroid.ui.main.MainActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.startActivity
