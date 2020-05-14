@@ -1,5 +1,7 @@
 package com.ayvytr.wanandroid.bean
 
+import java.lang.Exception
+
 /**
  * @author ayvytr
  */
@@ -10,5 +12,11 @@ data class BaseData<T>(
 ) {
     fun isFailed(): Boolean {
         return errorCode != 0
+    }
+
+    fun throwFailedException() {
+        if(isFailed()) {
+            throw Exception(errorMsg)
+        }
     }
 }

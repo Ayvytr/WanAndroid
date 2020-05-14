@@ -11,6 +11,7 @@ import com.ayvytr.coroutine.BaseCoroutineFragment
 import com.ayvytr.ktx.ui.show
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
+import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
@@ -26,6 +27,7 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
     //    val articleAdapter = ArticleAdapter()
     val articleAdapter by lazy {
         smart(listOf<Article>(), R.layout.item_article, {
+            iv.loadImage(it.envelopePic)
             tv_title.text = it.title
             tv_desc.text = it.desc
             tv_desc.show(it.title != it.desc)
@@ -34,6 +36,7 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
                 context!!.startActivity<WebViewActivity>(WebViewActivity.URL to t.link,
                                                          WebViewActivity.TITLE to t.title)
             }
+            diff()
         }
     }
 
@@ -88,7 +91,7 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
             status_view.showContent()
             refresh_layout.setEnableLoadMore(it.hasMore)
         })
-        mViewModel.getMainArticle(page, true)
+        mViewModel.getMainArticle(page)
     }
 
     override fun getViewModelClass(): Class<ArticleViewModel> {
@@ -114,3 +117,4 @@ class ArticleFragment : BaseCoroutineFragment<ArticleViewModel>() {
         }
     }
 }
+

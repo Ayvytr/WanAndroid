@@ -69,6 +69,9 @@ dependencies {
     implementation deps.retrofit_converter_gson
     implementation deps.retrofit_converter_scalars
     implementation deps.gson
+    implementation deps.glide
+    annotationProcessor deps.glide_compiler
+
     implementation deps.logger
 //    implementation deps.okhttploginterceptor
     implementation deps.ktx
