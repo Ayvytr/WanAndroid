@@ -6,6 +6,7 @@ import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.PageBean
+import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.db.DbManager
 
 /**
@@ -17,19 +18,15 @@ class BaseArticleViewModel : BaseViewModel() {
     val projectLiveData = MutableLiveData<PageBean<Article>>()
     val squareLiveData = MutableLiveData<PageBean<Article>>()
 
+    val wxCategoryLiveData = MutableLiveData<List<WxArticleCategory>>()
+    val wxArticleLiveData = MutableLiveData<PageBean<Article>>()
+
     val dao = DbManager.getInstance().db.wanDao()
 
     fun getMainArticle(page: Int, isLoadMore: Boolean = false) {
         launchLoading {
             val mainArticle = api.getMainArticle(page)
-            if (mainArticle.isFailed()) {
-//                val articles = dao.getArticles()
-//                if(articles.isEmpty()) {
-                    throw Exception(mainArticle.errorMsg)
-//                } else {
-//                    mainArticle.data.datas = articles
-//                }
-            }
+            mainArticle.throwFailedException()
             articleLiveData.postValue(
                 PageBean(
                     mainArticle.data.curPage,
@@ -70,4 +67,29 @@ class BaseArticleViewModel : BaseViewModel() {
             )
         }
     }
+
+
+    fun getWxArticleCategory() {
+        launchLoading {
+            val wxArticleCategory = api.getWxArticleCategory()
+            wxArticleCategory.throwFailedException()
+            wxCategoryLiveData.postValue(wxArticleCategory.data)
+        }
+    }
+
+    fun getWxArticle(id: Int, page: Int, isLoadMore: Boolean = false) {
+        launchLoading {
+            val wxArticle = api.getWxArticlesById(id, page)
+            wxArticle.throwFailedException()
+            wxArticleLiveData.postValue(
+                PageBean(
+                    page,
+                    isLoadMore,
+                    wxArticle.data.datas,
+                    wxArticle.data.hasMore()
+                )
+            )
+        }
+    }
+
 }

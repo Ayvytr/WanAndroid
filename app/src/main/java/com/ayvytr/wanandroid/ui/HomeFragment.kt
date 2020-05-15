@@ -11,6 +11,7 @@ import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import com.ayvytr.wanandroid.ui.project.ProjectFragment
+import com.ayvytr.wanandroid.ui.wx.WxArticleFragment
 import com.ayvytr.wanandroid.ui.square.SquareFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -18,9 +19,10 @@ class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
     private val fragments = listOf(
         ArticleFragment(),
         ProjectFragment(),
-        SquareFragment()
+        SquareFragment(),
+        WxArticleFragment()
     )
-    private val titles = listOf("首页文章", "最新项目", "广场")
+    private val titles = listOf("首页文章", "最新项目", "广场", "公众号列表")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +51,7 @@ class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
             }
         }
         vp.adapter = adapter
-        vp.offscreenPageLimit = adapter.count
+//        vp.offscreenPageLimit = adapter.count
         tab_layout.setupWithViewPager(vp)
     }
 }

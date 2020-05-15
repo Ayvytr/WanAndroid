@@ -11,7 +11,7 @@ import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
-import kotlinx.android.synthetic.main.fragment_artile.*
+import kotlinx.android.synthetic.main.fragment_article.*
 
 /**
  * @author Administrator
@@ -27,7 +27,7 @@ abstract class BaseListFragment<T : BaseViewModel, B> : BaseCoroutineFragment<T>
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_artile, container, false)
+        return inflater.inflate(R.layout.fragment_article, container, false)
     }
 
     override fun initView(savedInstanceState: Bundle?) {

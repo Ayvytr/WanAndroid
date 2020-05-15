@@ -1,13 +1,8 @@
 package com.ayvytr.wanandroid.api
 
-import androidx.lifecycle.LiveData
 import com.ayvytr.wanandroid.bean.*
 import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * @author ayvytr
@@ -43,6 +38,27 @@ interface Api {
      */
     @GET("banner/json")
     suspend fun getBanner(): BaseData<Banner>
+
+    /**
+     * 获取公众号列表
+     */
+    @GET("wxarticle/chapters/json")
+    suspend fun getWxArticleCategory(): BaseData<List<WxArticleCategory>>
+
+    /**
+     * 查看某个公众号历史数据
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    suspend fun getWxArticlesById(@Path("id") id: Int,
+                                  @Path("page") page: Int): BaseData<MainArticle>
+
+    /**
+     * 在某个公众号中搜索历史文章
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    suspend fun searchWxArticle(@Path("id") id: String,
+                                @Path("page") page: Int,
+                                @Query("k") key: String): BaseData<MainArticle>
 
     /**
      * 常用网站

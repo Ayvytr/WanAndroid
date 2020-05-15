@@ -42,8 +42,8 @@ class MainActivity : BaseCoroutineActivity<BaseViewModel>() {
                 || super.onSupportNavigateUp()
     }
 
-    override fun onBackPressed() {
-        moveTaskToBack(false)
+//    override fun onBackPressed() {
+//        moveTaskToBack(false)
 //        super.onBackPressed()
-    }
+//    }
 }

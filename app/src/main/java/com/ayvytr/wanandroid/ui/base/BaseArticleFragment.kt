@@ -11,7 +11,7 @@ import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.PageBean
 import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
-import kotlinx.android.synthetic.main.fragment_artile.*
+import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.item_article.view.*
 import org.jetbrains.anko.startActivity
 
