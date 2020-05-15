@@ -9,12 +9,18 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.ayvytr.coroutine.BaseCoroutineFragment
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
-import com.ayvytr.wanandroid.ui.project.ProjectFragment
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
+import com.ayvytr.wanandroid.ui.project.ProjectFragment
+import com.ayvytr.wanandroid.ui.square.SquareFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
-    private val fragments = listOf(ArticleFragment(), ProjectFragment())
+    private val fragments = listOf(
+        ArticleFragment(),
+        ProjectFragment(),
+        SquareFragment()
+    )
+    private val titles = listOf("首页文章", "最新项目", "广场")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +32,7 @@ class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        vp.adapter = object:FragmentPagerAdapter(
+        val adapter = object : FragmentPagerAdapter(
             childFragmentManager,
             FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
         ) {
@@ -39,9 +45,11 @@ class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
             }
 
             override fun getPageTitle(position: Int): CharSequence? {
-                return position.toString()
+                return titles[position]
             }
         }
+        vp.adapter = adapter
+        vp.offscreenPageLimit = adapter.count
         tab_layout.setupWithViewPager(vp)
     }
 }
