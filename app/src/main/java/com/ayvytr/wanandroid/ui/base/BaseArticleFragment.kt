@@ -1,6 +1,7 @@
 package com.ayvytr.wanandroid.ui.base
 
 import android.os.Bundle
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.ayvytr.adapter.SmartAdapter
@@ -47,7 +48,7 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
         return smart(listOf(), R.layout.item_article, {
             iv.loadImage(it.envelopePic)
             tv_title.text = it.title
-            tv_desc.text = it.desc
+            tv_desc.text = it.desc?.parseAsHtml()
             tv_desc.show(it.title != it.desc)
         }) {
             itemClick = { t, i ->
