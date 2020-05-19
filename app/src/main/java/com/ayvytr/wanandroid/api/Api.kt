@@ -56,7 +56,7 @@ interface Api {
      * 在某个公众号中搜索历史文章
      */
     @GET("wxarticle/list/{id}/{page}/json")
-    suspend fun searchWxArticle(@Path("id") id: String,
+    suspend fun searchWxArticle(@Path("id") id: Int,
                                 @Path("page") page: Int,
                                 @Query("k") key: String): BaseData<MainArticle>
 

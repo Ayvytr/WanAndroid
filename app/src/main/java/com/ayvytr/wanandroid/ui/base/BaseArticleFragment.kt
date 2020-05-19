@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.smart
 import com.ayvytr.ktx.ui.show
+import com.ayvytr.logger.L
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.PageBean
@@ -37,7 +38,11 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
             page = it.page
             mAdapter.update(it.list, it.isLoadMore)
 
-            status_view.showContent()
+            if (mAdapter.isEmpty()) {
+                status_view.showEmpty("未搜索到结果")
+            } else {
+                status_view.showContent()
+            }
             refresh_layout.setEnableLoadMore(it.hasMore)
         })
         loadData(firstPage)
@@ -47,7 +52,7 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
     override fun getAdapter(): SmartAdapter<Article> {
         return smart(listOf(), R.layout.item_article, {
             iv.loadImage(it.envelopePic)
-            tv_title.text = it.title
+            tv_title.text = it.title?.parseAsHtml()
             tv_desc.text = it.desc?.parseAsHtml()
             tv_desc.show(it.title != it.desc)
         }) {

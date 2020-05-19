@@ -92,4 +92,18 @@ class BaseArticleViewModel : BaseViewModel() {
         }
     }
 
+    fun searchWxArticle(id: Int, key: String, page: Int, isLoadMore: Boolean) {
+        launchLoading {
+            val wxArticle = api.searchWxArticle(id, page, key)
+            wxArticle.throwFailedException()
+            wxArticleLiveData.postValue(
+                PageBean(
+                    page,
+                    isLoadMore,
+                    wxArticle.data.datas,
+                    wxArticle.data.hasMore()
+                )
+            )
+        }
+    }
 }
