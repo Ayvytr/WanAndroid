@@ -1,19 +1,15 @@
 package com.ayvytr.wanandroid.ui.wx
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.ayvytr.logger.L
+import com.ayvytr.ktx.context.toast
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.PageBean
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import kotlinx.android.synthetic.main.fragment_wx_article.*
-import kotlinx.android.synthetic.main.fragment_wx_article.refresh_layout
-import kotlinx.android.synthetic.main.fragment_wx_article.status_view
 
 /**
  * @author Administrator
