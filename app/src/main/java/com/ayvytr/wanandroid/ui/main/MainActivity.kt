@@ -29,12 +29,6 @@ class MainActivity : BaseCoroutineActivity<BaseViewModel>() {
         )
         nav_view.setupWithNavController(navController)
 
-        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-            findNavController(R.id.nav_host_fragment).navigate(R.id.nav_home_second)
-        }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
