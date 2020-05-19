@@ -20,3 +20,7 @@ data class BaseData<T>(
         }
     }
 }
+
+fun BaseData<MainArticle>.toPageBean(isLoadMore: Boolean = false): PageBean<Article> {
+    return PageBean(data.curPage, isLoadMore, data.datas, data.hasMore())
+}

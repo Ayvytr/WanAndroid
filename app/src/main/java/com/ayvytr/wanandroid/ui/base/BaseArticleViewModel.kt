@@ -7,6 +7,7 @@ import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.PageBean
 import com.ayvytr.wanandroid.bean.WxArticleCategory
+import com.ayvytr.wanandroid.bean.toPageBean
 import com.ayvytr.wanandroid.db.DbManager
 
 /**
@@ -27,14 +28,7 @@ class BaseArticleViewModel : BaseViewModel() {
         launchLoading {
             val mainArticle = api.getMainArticle(page)
             mainArticle.throwFailedException()
-            articleLiveData.postValue(
-                PageBean(
-                    mainArticle.data.curPage,
-                    isLoadMore,
-                    mainArticle.data.datas,
-                    mainArticle.data.hasMore()
-                )
-            )
+            articleLiveData.postValue(mainArticle.toPageBean(isLoadMore))
         }
     }
 
@@ -42,14 +36,7 @@ class BaseArticleViewModel : BaseViewModel() {
         launchLoading {
             val mainProject = api.getNewestProject(page)
             mainProject.throwFailedException()
-            projectLiveData.postValue(
-                PageBean(
-                    page,
-                    isLoadMore,
-                    mainProject.data.datas,
-                    mainProject.data.hasMore()
-                )
-            )
+            projectLiveData.postValue(mainProject.toPageBean(isLoadMore))
         }
     }
 
@@ -57,14 +44,7 @@ class BaseArticleViewModel : BaseViewModel() {
         launchLoading {
             val squareArticle = api.getSquareArticle(page)
             squareArticle.throwFailedException()
-            squareLiveData.postValue(
-                PageBean(
-                    page,
-                    isLoadMore,
-                    squareArticle.data.datas,
-                    squareArticle.data.hasMore()
-                )
-            )
+            squareLiveData.postValue(squareArticle.toPageBean(isLoadMore))
         }
     }
 
@@ -81,14 +61,7 @@ class BaseArticleViewModel : BaseViewModel() {
         launchLoading {
             val wxArticle = api.getWxArticlesById(id, page)
             wxArticle.throwFailedException()
-            wxArticleLiveData.postValue(
-                PageBean(
-                    page,
-                    isLoadMore,
-                    wxArticle.data.datas,
-                    wxArticle.data.hasMore()
-                )
-            )
+            wxArticleLiveData.postValue(wxArticle.toPageBean(isLoadMore))
         }
     }
 
@@ -96,14 +69,7 @@ class BaseArticleViewModel : BaseViewModel() {
         launchLoading {
             val wxArticle = api.searchWxArticle(id, page, key)
             wxArticle.throwFailedException()
-            wxArticleLiveData.postValue(
-                PageBean(
-                    page,
-                    isLoadMore,
-                    wxArticle.data.datas,
-                    wxArticle.data.hasMore()
-                )
-            )
+            wxArticleLiveData.postValue(wxArticle.toPageBean(isLoadMore))
         }
     }
 }
