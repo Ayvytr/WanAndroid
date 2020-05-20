@@ -1,7 +1,5 @@
 package com.ayvytr.wanandroid.bean
 
-import java.lang.Exception
-
 /**
  * @author ayvytr
  */
@@ -23,4 +21,12 @@ data class BaseData<T>(
 
 fun BaseData<MainArticle>.toPageBean(isLoadMore: Boolean = false): PageBean<Article> {
     return PageBean(data.curPage, isLoadMore, data.datas, data.hasMore())
+}
+
+fun <T> BaseData<T>.toResponse(
+    hasMore: Boolean = false,
+    page: Int = 1,
+    isLoadMore: Boolean = false
+): ResponseBean<T> {
+    return ResponseBean(this.data, !isFailed(), this.errorMsg, hasMore, page, isLoadMore)
 }

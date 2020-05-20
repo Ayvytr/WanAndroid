@@ -37,7 +37,7 @@ interface Api {
      * 首页banner
      */
     @GET("banner/json")
-    suspend fun getBanner(): BaseData<Banner>
+    suspend fun getBanner(): BaseData<List<Banner>>
 
     /**
      * 获取公众号列表
@@ -76,7 +76,7 @@ interface Api {
      * 置顶文章
      */
     @GET("article/top/json")
-    suspend fun getTopArticles(): BaseData<TopArticle>
+    suspend fun getTopArticles(): BaseData<List<Article>>
 
     //体系
     /**

@@ -57,7 +57,7 @@ deps.base_adapter = "com.ayvytr:base-adapter:1.4.1"
 deps.logger = "com.ayvytr:logger:+"
 deps.network = "com.ayvytr:network:2.2.0"
 deps.okhttploginterceptor = "com.ayvytr:okhttploginterceptor:4.4.0"
-deps.ktx = "com.ayvytr:ktx:2.5.0"
+deps.ktx = "com.ayvytr:ktx:2.5.3"
 deps.base_coroutine_activity_androidx = "com.ayvytr:base-coroutine-activity-androidx:0.3.2"
 deps.smartadapter= "com.ayvytr:smart-adapter:+"
 //end ayvytr
