@@ -28,5 +28,5 @@ fun <T> BaseData<T>.toResponse(
     page: Int = 1,
     isLoadMore: Boolean = false
 ): ResponseBean<T> {
-    return ResponseBean(this.data, !isFailed(), this.errorMsg, hasMore, page, isLoadMore)
+    return ResponseBean(this.data, !isFailed(), this.errorMsg, null, hasMore, page, isLoadMore)
 }

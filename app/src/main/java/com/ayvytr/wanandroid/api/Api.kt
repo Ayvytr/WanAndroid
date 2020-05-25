@@ -177,4 +177,6 @@ interface Api {
 //    suspend fun addArticle(@Body body: RequestBody): BaseData<Any>
 
     //问答：暂不提供
+    @GET("wenda/list/{page}/json")
+    suspend fun askArticle(@Path("page") page: Int): BaseData<MainArticle>
 }

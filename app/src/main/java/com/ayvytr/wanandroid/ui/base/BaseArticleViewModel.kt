@@ -22,6 +22,8 @@ class BaseArticleViewModel : BaseViewModel() {
     val wxCategoryLiveData = MutableLiveData<List<WxArticleCategory>>()
     val wxArticleLiveData = MutableLiveData<PageBean<Article>>()
 
+    val askLiveData = MutableLiveData<PageBean<Article>>()
+
     val dao = DbManager.getInstance().db.wanDao()
 
     fun getMainArticle(page: Int, isLoadMore: Boolean = false) {
@@ -70,6 +72,14 @@ class BaseArticleViewModel : BaseViewModel() {
             val wxArticle = api.searchWxArticle(id, page, key)
             wxArticle.throwFailedException()
             wxArticleLiveData.postValue(wxArticle.toPageBean(isLoadMore))
+        }
+    }
+
+    fun getAskArticle(page: Int, isLoadMore: Boolean = false) {
+        launchLoading {
+            val askArticle = api.askArticle(page)
+            askArticle.throwFailedException()
+            askLiveData.postValue(askArticle.toPageBean(isLoadMore))
         }
     }
 }
