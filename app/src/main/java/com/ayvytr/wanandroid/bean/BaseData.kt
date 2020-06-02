@@ -1,5 +1,7 @@
 package com.ayvytr.wanandroid.bean
 
+import com.ayvytr.coroutine.bean.ResponseWrapper
+
 /**
  * @author ayvytr
  */
@@ -27,6 +29,6 @@ fun <T> BaseData<T>.toResponse(
     hasMore: Boolean = false,
     page: Int = 1,
     isLoadMore: Boolean = false
-): ResponseBean<T> {
-    return ResponseBean(this.data, !isFailed(), this.errorMsg, null, hasMore, page, isLoadMore)
+): ResponseWrapper<T> {
+    return ResponseWrapper(this.data, !isFailed(), page, isLoadMore, hasMore, Throwable(errorMsg))
 }

@@ -58,7 +58,7 @@ deps.logger = "com.ayvytr:logger:+"
 deps.network = "com.ayvytr:network:2.2.0"
 deps.okhttploginterceptor = "com.ayvytr:okhttploginterceptor:4.4.0"
 deps.ktx = "com.ayvytr:ktx:2.5.3"
-deps.base_coroutine_activity_androidx = "com.ayvytr:base-coroutine-activity-androidx:0.3.2"
+deps.base_coroutine_activity_androidx = "com.ayvytr:base-coroutine-activity-androidx:0.3.3"
 deps.smartadapter= "com.ayvytr:smart-adapter:+"
 //end ayvytr
 
@@ -86,7 +86,7 @@ deps.arouter_compiler = "com.alibaba:arouter-compiler:1.2.1"
 
 deps.agentweb = "com.just.agentweb:agentweb:4.0.2"
 
-deps.smartrefresh = "com.scwang.smartrefresh:SmartRefreshLayout:1.1.2"
+deps.smartrefresh = "com.scwang.smartrefresh:SmartRefreshLayout:+"
 
 deps.leakcanary = "com.squareup.leakcanary:leakcanary-android:1.6.2"
 deps.leakcanary_release = "com.squareup.leakcanary:leakcanary-android-no-op:1.6.2"

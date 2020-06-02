@@ -39,7 +39,7 @@ class TopFragment : BaseCoroutineFragment<TopViewModel>() {
             tv_desc.show(it.title != it.desc)
         }) {
             itemClick = { t, i ->
-                context!!.startActivity<WebViewActivity>(
+                context?.startActivity<WebViewActivity>(
                     WebViewActivity.URL to t.link,
                     WebViewActivity.TITLE to t.title
                 )
@@ -74,20 +74,9 @@ class TopFragment : BaseCoroutineFragment<TopViewModel>() {
         rv.adapter = topArticleAdapter
 
         refresh_layout.setOnRefreshListener {
+            refresh_layout.autoRefresh()
             mViewModel.getTopArticle()
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (bannerAdapter.itemCount > 0) {
-            banner.start()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        banner.stop()
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -103,15 +92,16 @@ class TopFragment : BaseCoroutineFragment<TopViewModel>() {
         })
         mViewModel.topArticleLiveData.observe(this, Observer {
             if (it.isSucceed) {
-                if (it.data.isEmpty()) {
+                if (it.data!!.isEmpty()) {
                     status_view.showEmpty()
                 } else {
-                    topArticleAdapter.update(it.data)
+                    topArticleAdapter.update(it.data!!)
                     status_view.showContent()
                 }
             } else {
-                status_view.showError(it.error)
+                status_view.showError(it.exception?.message)
             }
+            refresh_layout.finishRefresh()
         })
 
         mViewModel.getBanner()

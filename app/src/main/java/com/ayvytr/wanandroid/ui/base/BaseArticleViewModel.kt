@@ -1,6 +1,7 @@
 package com.ayvytr.wanandroid.ui.base
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.api.Api
@@ -9,6 +10,7 @@ import com.ayvytr.wanandroid.bean.PageBean
 import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.bean.toPageBean
 import com.ayvytr.wanandroid.db.DbManager
+import kotlinx.coroutines.launch
 
 /**
  * @author EDZ
@@ -76,10 +78,26 @@ class BaseArticleViewModel : BaseViewModel() {
     }
 
     fun getAskArticle(page: Int, isLoadMore: Boolean = false) {
+        launchRequest {
+            val askArticle = api.askArticle(page)
+            askArticle.throwFailedException()
+            askLiveData.postValue(askArticle.toPageBean(isLoadMore))
+        }
+
         launchLoading {
             val askArticle = api.askArticle(page)
             askArticle.throwFailedException()
             askLiveData.postValue(askArticle.toPageBean(isLoadMore))
+        }
+    }
+
+    fun launchRequest(block: suspend () -> Unit) {
+        viewModelScope.launch {
+            runCatching {
+                block()
+            }.onSuccess {
+
+            }.onFailure { }
         }
     }
 }
