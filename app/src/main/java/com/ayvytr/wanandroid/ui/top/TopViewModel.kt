@@ -7,7 +7,7 @@ import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.Banner
-import com.ayvytr.wanandroid.bean.toResponse
+import com.ayvytr.wanandroid.bean.toResponseWrapper
 
 class TopViewModel : BaseViewModel() {
     val api = ApiClient.getInstance().create(Api::class.java)
@@ -18,12 +18,12 @@ class TopViewModel : BaseViewModel() {
     fun getBanner() {
         launchLoading {
             val banner = api.getBanner()
-            bannerLiveData.postValue(banner.toResponse())
+            bannerLiveData.postValue(banner.toResponseWrapper())
         }
     }
 
     fun getTopArticle() {
-        launchWrapper(topArticleLiveData) { api.getTopArticles().toResponse() }
+        launchWrapper(topArticleLiveData) { api.getTopArticles().toResponseWrapper() }
     }
 
 }

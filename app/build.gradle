@@ -77,7 +77,6 @@ dependencies {
     implementation deps.logger
 //    implementation deps.okhttploginterceptor
     implementation deps.ktx
-//    implementation deps.network
     implementation deps.base_coroutine_activity_androidx
     implementation deps.smartadapter
     implementation deps.smartrefresh

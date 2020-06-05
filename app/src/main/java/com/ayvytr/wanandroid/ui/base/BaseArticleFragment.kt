@@ -57,7 +57,7 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
             tv_desc.show(it.title != it.desc)
         }) {
             itemClick = { t, i ->
-                context!!.startActivity<WebViewActivity>(
+                requireContext().startActivity<WebViewActivity>(
                     WebViewActivity.URL to t.link,
                     WebViewActivity.TITLE to t.title
                 )

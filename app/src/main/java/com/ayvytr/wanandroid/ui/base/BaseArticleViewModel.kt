@@ -1,16 +1,13 @@
 package com.ayvytr.wanandroid.ui.base
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import com.ayvytr.coroutine.bean.ResponseWrapper
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
+import com.ayvytr.coroutine.wrapper
 import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.api.Api
-import com.ayvytr.wanandroid.bean.Article
-import com.ayvytr.wanandroid.bean.PageBean
-import com.ayvytr.wanandroid.bean.WxArticleCategory
-import com.ayvytr.wanandroid.bean.toPageBean
+import com.ayvytr.wanandroid.bean.*
 import com.ayvytr.wanandroid.db.DbManager
-import kotlinx.coroutines.launch
 
 /**
  * @author EDZ
@@ -22,7 +19,9 @@ class BaseArticleViewModel : BaseViewModel() {
     val squareLiveData = MutableLiveData<PageBean<Article>>()
 
     val wxCategoryLiveData = MutableLiveData<List<WxArticleCategory>>()
-    val wxArticleLiveData = MutableLiveData<PageBean<Article>>()
+
+    //    val wxArticleLiveData = MutableLiveData<PageBean<Article>>()
+    val wxArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
     val askLiveData = MutableLiveData<PageBean<Article>>()
 
@@ -62,28 +61,30 @@ class BaseArticleViewModel : BaseViewModel() {
     }
 
     fun getWxArticle(id: Int, page: Int, isLoadMore: Boolean = false) {
-        launchLoading {
+        launchWrapper(wxArticleLiveData) {
             val wxArticle = api.getWxArticlesById(id, page)
-            wxArticle.throwFailedException()
-            wxArticleLiveData.postValue(wxArticle.toPageBean(isLoadMore))
+            wxArticle.wrap(isLoadMore)
         }
+//        launchLoading {
+//            val wxArticle = api.getWxArticlesById(id, page)
+//            wxArticle.throwFailedException()
+//            wxArticleLiveData.postValue(wxArticle.toPageBean(isLoadMore))
+//        }
     }
 
     fun searchWxArticle(id: Int, key: String, page: Int, isLoadMore: Boolean) {
-        launchLoading {
+        launchWrapper(wxArticleLiveData) {
             val wxArticle = api.searchWxArticle(id, page, key)
-            wxArticle.throwFailedException()
-            wxArticleLiveData.postValue(wxArticle.toPageBean(isLoadMore))
+            wxArticle.wrap(isLoadMore)
         }
+//        launchLoading {
+//            val wxArticle = api.searchWxArticle(id, page, key)
+//            wxArticle.throwFailedException()
+//            wxArticleLiveData.postValue(wxArticle.toPageBean(isLoadMore))
+//        }
     }
 
     fun getAskArticle(page: Int, isLoadMore: Boolean = false) {
-        launchRequest {
-            val askArticle = api.askArticle(page)
-            askArticle.throwFailedException()
-            askLiveData.postValue(askArticle.toPageBean(isLoadMore))
-        }
-
         launchLoading {
             val askArticle = api.askArticle(page)
             askArticle.throwFailedException()
@@ -91,13 +92,4 @@ class BaseArticleViewModel : BaseViewModel() {
         }
     }
 
-    fun launchRequest(block: suspend () -> Unit) {
-        viewModelScope.launch {
-            runCatching {
-                block()
-            }.onSuccess {
-
-            }.onFailure { }
-        }
-    }
 }

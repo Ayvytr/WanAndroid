@@ -110,9 +110,11 @@ class TopFragment : BaseCoroutineFragment<TopViewModel>() {
 
     override fun showLoading(isShow: Boolean) {
         if (isShow) {
-            status_view.showLoading()
-        } else {
-            refresh_layout.finishRefresh()
+            if (topArticleAdapter.isEmpty()) {
+                status_view.showLoading()
+            } else {
+                refresh_layout.finishRefresh()
+            }
         }
     }
 }

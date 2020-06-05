@@ -14,6 +14,10 @@ data class BaseData<T>(
         return errorCode != 0
     }
 
+    fun isSucceed(): Boolean {
+        return !isFailed()
+    }
+
     fun throwFailedException() {
         if(isFailed()) {
             throw Exception(errorMsg)
@@ -25,10 +29,16 @@ fun BaseData<MainArticle>.toPageBean(isLoadMore: Boolean = false): PageBean<Arti
     return PageBean(data.curPage, isLoadMore, data.datas, data.hasMore())
 }
 
-fun <T> BaseData<T>.toResponse(
-    hasMore: Boolean = false,
+fun <T> BaseData<T>.toResponseWrapper(
     page: Int = 1,
-    isLoadMore: Boolean = false
+    isLoadMore: Boolean = false,
+    hasMore: Boolean = false
 ): ResponseWrapper<T> {
     return ResponseWrapper(this.data, !isFailed(), page, isLoadMore, hasMore, Throwable(errorMsg))
+}
+
+fun BaseData<MainArticle>.wrap(
+    isLoadMore: Boolean = false
+): ResponseWrapper<List<Article>> {
+    return ResponseWrapper(this.data.datas, !isFailed(), data.curPage, isLoadMore, data.hasMore(), Throwable(errorMsg))
 }

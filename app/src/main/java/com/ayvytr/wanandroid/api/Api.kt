@@ -176,7 +176,9 @@ interface Api {
 //    @POST("lg/user_article/add/json")
 //    suspend fun addArticle(@Body body: RequestBody): BaseData<Any>
 
-    //问答：暂不提供
+    /**
+     * 问答
+     */
     @GET("wenda/list/{page}/json")
     suspend fun askArticle(@Path("page") page: Int): BaseData<MainArticle>
 }

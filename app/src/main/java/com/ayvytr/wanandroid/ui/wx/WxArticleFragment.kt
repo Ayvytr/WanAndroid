@@ -2,17 +2,10 @@ package com.ayvytr.wanandroid.ui.wx
 
 import android.os.Bundle
 import android.view.*
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.ayvytr.ktx.context.toast
-import com.ayvytr.logger.L
 import com.ayvytr.wanandroid.R
-import com.ayvytr.wanandroid.bean.Article
-import com.ayvytr.wanandroid.bean.PageBean
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import kotlinx.android.synthetic.main.fragment_wx_article.*
 
@@ -24,28 +17,31 @@ class WxArticleFragment : BaseArticleFragment() {
     private lateinit var mSearchAutoComplete: SearchView.SearchAutoComplete
 
     private var mKey: String = ""
+    private var lastCategoryIndex = -1;
 
     private val categoryAdapter by lazy {
-        WxCategoryAdapter(context!!)
+        WxCategoryAdapter(requireContext())
     }
 
     override fun loadData(page: Int, isLoadMore: Boolean) {
-        if(::mSearchView.isInitialized && mSearchAutoComplete.isFocused) {
+        if (::mSearchView.isInitialized && mSearchAutoComplete.isFocused) {
             toast(mSearchAutoComplete.text.toString())
-            mViewModel.searchWxArticle(categoryAdapter.currentCategory(), mSearchAutoComplete.text.toString(), page, isLoadMore)
-            L.e(mSearchAutoComplete.text.toString(), page, isLoadMore)
-        }
-        else {
+            mViewModel.searchWxArticle(
+                categoryAdapter.currentCategory(),
+                mSearchAutoComplete.text.toString(),
+                page,
+                isLoadMore
+            )
+        } else {
             if (categoryAdapter.currentIndex != -1) {
                 mViewModel.getWxArticle(categoryAdapter.currentCategory(), page, isLoadMore)
-                L.e("not search")
             }
         }
     }
 
-    override fun getListLiveData(): MutableLiveData<PageBean<Article>> {
-        return mViewModel.wxArticleLiveData
-    }
+//    override fun getListLiveData(): MutableLiveData<PageBean<Article>> {
+//        return mViewModel.wxArticleLiveData
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,9 +54,7 @@ class WxArticleFragment : BaseArticleFragment() {
         super.initView(savedInstanceState)
         categoryAdapter.itemClickListener = { item, i ->
             if(categoryAdapter.currentIndex != i) {
-                categoryAdapter.currentIndex = i
-                status_view.showLoading()
-                loadData(firstPage)
+                changeCategory(i)
             }
         }
         rv_category.adapter = categoryAdapter
@@ -69,9 +63,14 @@ class WxArticleFragment : BaseArticleFragment() {
 
     }
 
+    private fun changeCategory(i: Int) {
+        categoryAdapter.currentIndex = i
+        loadData(firstPage)
+    }
+
     override fun initData(savedInstanceState: Bundle?) {
         firstPage = 1
-        super.initData(savedInstanceState)
+
         mViewModel.wxCategoryLiveData.observe(this, Observer {
             categoryAdapter.update(it)
             categoryAdapter.resetIndex()
@@ -79,11 +78,29 @@ class WxArticleFragment : BaseArticleFragment() {
             loadData(firstPage)
         })
 
-        mViewModel.getWxArticleCategory()
+        mViewModel.wxArticleLiveData.observe(this, Observer {
+            if(it.isSucceed) {
+                page = it.page
+                mAdapter.update(it.data!!, it.isLoadMore)
 
-//        requireActivity().onBackPressedDispatcher.addCallback(this, true) {
-//            L.e(mSearchView.isFocused)
-//        }
+                if (mAdapter.isEmpty()) {
+                    status_view.showEmpty("未搜索到结果")
+                } else {
+                    status_view.showContent()
+                }
+                refresh_layout.setEnableLoadMore(it.hasMore)
+
+                lastCategoryIndex = categoryAdapter.currentIndex
+            } else {
+                if(lastCategoryIndex != -1) {
+                    categoryAdapter.currentIndex = lastCategoryIndex
+                }
+                it.exception?.message?.let {
+                    showMessage(it)
+                }
+            }
+        })
+        mViewModel.getWxArticleCategory()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
