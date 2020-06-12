@@ -34,6 +34,7 @@ class WxArticleFragment : BaseArticleFragment() {
                 mViewModel.getWxArticle(categoryAdapter.currentCategory(), page, isLoadMore)
             }
         }
+        refresh_layout.autoRefresh()
     }
 
 //    override fun getListLiveData(): MutableLiveData<PageBean<Article>> {
@@ -50,13 +51,14 @@ class WxArticleFragment : BaseArticleFragment() {
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         categoryAdapter.itemClickListener = { item, i ->
-            if(categoryAdapter.currentIndex != i) {
+            if (categoryAdapter.currentIndex != i) {
                 changeCategory(i)
             }
         }
         rv_category.adapter = categoryAdapter
 
         setHasOptionsMenu(true)
+        status_view.showContent()
 
     }
 
@@ -76,7 +78,7 @@ class WxArticleFragment : BaseArticleFragment() {
         })
 
         mViewModel.wxArticleLiveData.observe(this, Observer {
-            if(it.isSucceed) {
+            if (it.isSucceed) {
                 page = it.page
                 mAdapter.update(it.data!!, it.isLoadMore)
 
@@ -89,7 +91,7 @@ class WxArticleFragment : BaseArticleFragment() {
 
                 lastCategoryIndex = categoryAdapter.currentIndex
             } else {
-                if(lastCategoryIndex != -1) {
+                if (lastCategoryIndex != -1) {
                     categoryAdapter.currentIndex = lastCategoryIndex
                 }
                 it.exception?.message?.let {
@@ -122,7 +124,7 @@ class WxArticleFragment : BaseArticleFragment() {
             }
         }
         mSearchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
-            if(!hasFocus) {
+            if (!hasFocus) {
                 loadData(1)
             }
         }
@@ -131,6 +133,10 @@ class WxArticleFragment : BaseArticleFragment() {
         mSearchView.isIconified = true
     }
 
-
-
+    override fun showLoading(isShow: Boolean) {
+        if (!isShow) {
+            refresh_layout.finishRefresh()
+            refresh_layout.finishLoadMore()
+        }
+    }
 }
