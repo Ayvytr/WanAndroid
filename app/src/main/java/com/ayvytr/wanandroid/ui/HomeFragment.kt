@@ -12,13 +12,15 @@ import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import com.ayvytr.wanandroid.ui.ask.AskFragment
 import com.ayvytr.wanandroid.ui.project.ProjectFragment
-import com.ayvytr.wanandroid.ui.wx.WxArticleFragment
 import com.ayvytr.wanandroid.ui.square.SquareFragment
 import com.ayvytr.wanandroid.ui.top.TopFragment
+import com.ayvytr.wanandroid.ui.wx.WxArticleFragment
+import com.ayvytr.wanandroid.uisearch.SearchFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
     private val fragments = listOf(
+        SearchFragment(),
         TopFragment(),
         AskFragment(),
         ArticleFragment(),
@@ -26,7 +28,7 @@ class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
         SquareFragment(),
         WxArticleFragment()
     )
-    private val titles = listOf("轮播和置顶", "问答", "首页文章", "最新项目", "广场", "公众号列表")
+    private val titles = listOf("搜一搜", "轮播和置顶", "问答", "首页文章", "最新项目", "广场", "公众号列表")
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import com.ayvytr.ktx.context.toast
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import kotlinx.android.synthetic.main.fragment_wx_article.*
@@ -16,7 +15,6 @@ class WxArticleFragment : BaseArticleFragment() {
     private lateinit var mSearchView: SearchView
     private lateinit var mSearchAutoComplete: SearchView.SearchAutoComplete
 
-    private var mKey: String = ""
     private var lastCategoryIndex = -1;
 
     private val categoryAdapter by lazy {
@@ -25,7 +23,6 @@ class WxArticleFragment : BaseArticleFragment() {
 
     override fun loadData(page: Int, isLoadMore: Boolean) {
         if (::mSearchView.isInitialized && mSearchAutoComplete.isFocused) {
-            toast(mSearchAutoComplete.text.toString())
             mViewModel.searchWxArticle(
                 categoryAdapter.currentCategory(),
                 mSearchAutoComplete.text.toString(),
@@ -120,13 +117,17 @@ class WxArticleFragment : BaseArticleFragment() {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                mKey = query
                 loadData(1)
                 return true
             }
         }
+        mSearchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
+            if(!hasFocus) {
+                loadData(1)
+            }
+        }
         mSearchView.setOnQueryTextListener(queryTextListener)
-        mSearchView.queryHint = "输入搜索当前公众号下的文章"
+        mSearchView.queryHint = getString(R.string.search_by_key_hint)
         mSearchView.isIconified = true
     }
 

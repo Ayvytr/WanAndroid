@@ -1,7 +1,6 @@
 package com.ayvytr.wanandroid.api
 
 import com.ayvytr.wanandroid.bean.*
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -99,10 +98,10 @@ interface Api {
      * 按照作者昵称搜索文章，不支持模糊匹配。
      * @param page 0开始
      */
-    @GET("article/list/{page}/json?author={author}")
+    @GET("article/list/{page}/json")
     suspend fun searchArticleByAuthor(
-        @Path("author") author: String,
-        @Path("page") page: Int
+        @Path("page") page: Int,
+        @Query("author") author: String
     ): BaseData<MainArticle>
 
     //导航：暂不提供
@@ -130,9 +129,12 @@ interface Api {
      * k ： 搜索关键词
      * @param page 从0开始
      */
+    @FormUrlEncoded
     @POST("article/query/{page}/json")
-    //TODO: 修正返回值
-    suspend fun search(@Body body: RequestBody, @Path("page") page: Int): BaseData<MainArticle>
+    suspend fun searchKey(
+        @Field("k") key: String,
+        @Path("page") page: Int
+    ): BaseData<MainArticle>
 
     //广场
     /**

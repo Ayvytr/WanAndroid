@@ -39,7 +39,7 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
             mAdapter.update(it.list, it.isLoadMore)
 
             if (mAdapter.isEmpty()) {
-                status_view.showEmpty("未搜索到结果")
+                status_view.showEmpty(getString(R.string.search_no_value))
             } else {
                 status_view.showContent()
             }

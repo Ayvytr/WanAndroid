@@ -3,7 +3,6 @@ package com.ayvytr.wanandroid.ui.base
 import androidx.lifecycle.MutableLiveData
 import com.ayvytr.coroutine.bean.ResponseWrapper
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
-import com.ayvytr.coroutine.wrapper
 import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.*
@@ -22,6 +21,8 @@ class BaseArticleViewModel : BaseViewModel() {
 
     //    val wxArticleLiveData = MutableLiveData<PageBean<Article>>()
     val wxArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
+
+    val searchKeyLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
     val askLiveData = MutableLiveData<PageBean<Article>>()
 
@@ -92,4 +93,17 @@ class BaseArticleViewModel : BaseViewModel() {
         }
     }
 
+    fun searchKey(
+        key: String,
+        searchAuthor: Boolean,
+        page: Int,
+        isLoadMore: Boolean
+    ) {
+        launchWrapper(searchKeyLiveData) {
+            val searchKey = if (searchAuthor)
+                api.searchArticleByAuthor(page, key)
+            else api.searchKey(key, page)
+            searchKey.wrap(isLoadMore)
+        }
+    }
 }

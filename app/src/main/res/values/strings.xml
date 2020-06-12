@@ -13,4 +13,9 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+
+    <string name="search_by_nickname_hint">按照作者昵称搜索文章，不支持模糊匹配</string>
+    <string name="search_by_key_hint">支持多个关键词，用空格隔开</string>
+    <string name="search_no_value">未搜索到结果</string>
+    <string name="input_key_to_search">输入关键字以搜索</string>
 </resources>

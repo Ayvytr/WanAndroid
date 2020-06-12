@@ -16,6 +16,7 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         app:tabInlineLabel="false"
+        app:tabMode="auto"
         android:layout_height="@dimen/_50dp">
 
     </com.google.android.material.tabs.TabLayout>
