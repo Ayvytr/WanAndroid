@@ -11,6 +11,7 @@ import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import com.ayvytr.wanandroid.ui.ask.AskFragment
+import com.ayvytr.wanandroid.ui.my.MyFragment
 import com.ayvytr.wanandroid.ui.project.ProjectFragment
 import com.ayvytr.wanandroid.ui.square.SquareFragment
 import com.ayvytr.wanandroid.ui.top.TopFragment
@@ -26,9 +27,12 @@ class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
         ArticleFragment(),
         ProjectFragment(),
         SquareFragment(),
-        WxArticleFragment()
+        WxArticleFragment(),
+        MyFragment()
     )
-    private val titles = listOf("搜一搜", "轮播和置顶", "问答", "首页文章", "最新项目", "广场", "公众号列表")
+    private val titles = listOf(
+        "搜一搜", "轮播和置顶", "问答", "首页文章", "最新项目", "广场", "公众号列表", "我的"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,

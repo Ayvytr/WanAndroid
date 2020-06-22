@@ -40,5 +40,19 @@ fun <T> BaseData<T>.toResponseWrapper(
 fun BaseData<MainArticle>.wrap(
     isLoadMore: Boolean = false
 ): ResponseWrapper<List<Article>> {
-    return ResponseWrapper(this.data.datas, !isFailed(), data.curPage, isLoadMore, data.hasMore(), Throwable(errorMsg))
+    return ResponseWrapper(
+        this.data.datas,
+        !isFailed(),
+        data.curPage,
+        isLoadMore,
+        data.hasMore(),
+        Throwable(errorMsg)
+    )
+}
+
+fun <T> BaseData<T>.wrap(): ResponseWrapper<T> {
+    return ResponseWrapper(
+        this.data, !isFailed(),
+        exception = if (isFailed()) Exception(this.errorMsg) else null
+    )
 }

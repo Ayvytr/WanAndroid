@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:padding="@dimen/_16dp"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_account"
+        android:layout_width="match_parent"
+        android:hint="@string/please_input_username"
+        android:layout_height="@dimen/_60dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_password"
+        android:layout_width="match_parent"
+        android:hint="@string/please_input_password"
+        android:layout_height="@dimen/_60dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_repassword"
+        android:layout_width="match_parent"
+        android:hint="@string/please_input_re_password"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_height="@dimen/_60dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_repassword"
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:text="@string/login"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60dp" />
+
+    <TextView
+        android:id="@+id/tv_goto_register"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_width="@dimen/_100dp"
+        android:text="@string/goto_register"
+        android:gravity="center"
+        android:layout_height="@dimen/_40dp" />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:text="@string/register"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60dp" />
+
+    <TextView
+        android:id="@+id/tv_goto_login"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_width="@dimen/_100dp"
+        android:text="@string/goto_login"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:gravity="center"
+        android:layout_height="@dimen/_40dp" />
+
+</LinearLayout>

@@ -7,15 +7,23 @@ import retrofit2.http.*
  * @author ayvytr
  */
 interface Api {
-    //登录
-//    @POST("user/login")
-//    suspend fun login(@Body login: LoginReq)
-//
-//    @POST("user/register")
-//    suspend fun register(@Body register: RegisterReq)
-//
-//    @GET("user/logout/json")
-//    suspend fun logout()
+    @FormUrlEncoded
+    @POST("user/login")
+    suspend fun login(
+        @Field("username") userName: String,
+        @Field("password") password: String
+    ): BaseData<UserInfo>
+
+    @FormUrlEncoded
+    @POST("user/register")
+    suspend fun register(
+        @Field("username") userName: String,
+        @Field("password") password: String,
+        @Field("repassword") repassword: String
+    ): BaseData<UserInfo>
+
+    @GET("user/logout/json")
+    suspend fun logout()
 
     //首页
     /**
@@ -123,9 +131,9 @@ interface Api {
     ): BaseData<MainArticle>
 
     //收藏：暂不提供
-    //搜索
+
     /**
-     * 支持多个关键词，用空格隔开.
+     * 搜索，支持多个关键词，用空格隔开.
      * k ： 搜索关键词
      * @param page 从0开始
      */

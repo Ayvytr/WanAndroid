@@ -14,6 +14,15 @@
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
             app:destination="@id/nav_home_second" />
+
+        <action
+            android:id="@+id/nav_goto_login"
+            app:destination="@id/nav_login">
+            <argument
+                android:name="isLogin"
+                android:defaultValue="true"
+                app:argType="boolean" />
+        </action>
     </fragment>
 
     <fragment
@@ -30,4 +39,19 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.ayvytr.wanandroid.ui.login.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/nav_goto_login"
+            app:destination="@id/nav_login">
+            <argument
+                android:name="isLogin"
+                android:defaultValue="false"
+                app:argType="boolean" />
+        </action>
+    </fragment>
 </navigation>

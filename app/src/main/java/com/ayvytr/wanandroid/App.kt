@@ -4,8 +4,10 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.os.Process
+import com.ayvytr.ktx.provider.ContextProvider
 import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.db.DbManager
+import com.tencent.mmkv.MMKV
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -19,8 +21,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 //        if(isMainProcess()) {
-            ApiClient.getInstance().init(Const.WANANDROID_BASE_URL, 20, cache = null)
+            ApiClient.getInstance().init(Const.WANANDROID_BASE_URL, 20, cache = null,
+                enableCookieJar = true)
             DbManager.getInstance().init(this)
+            MMKV.initialize(ContextProvider.getContext())
 //        }
     }
 
