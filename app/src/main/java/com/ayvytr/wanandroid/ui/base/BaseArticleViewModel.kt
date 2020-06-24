@@ -12,7 +12,9 @@ import com.ayvytr.wanandroid.db.DbManager
  * @author EDZ
  */
 class BaseArticleViewModel : BaseViewModel() {
-    val api = ApiClient.getInstance().create(Api::class.java)
+    val dao = DbManager.getInstance().db.wanDao()
+
+    val api = ApiClient.create(Api::class.java)
     val articleLiveData = MutableLiveData<PageBean<Article>>()
     val projectLiveData = MutableLiveData<PageBean<Article>>()
     val squareLiveData = MutableLiveData<PageBean<Article>>()
@@ -26,7 +28,7 @@ class BaseArticleViewModel : BaseViewModel() {
 
     val askLiveData = MutableLiveData<PageBean<Article>>()
 
-    val dao = DbManager.getInstance().db.wanDao()
+    val collectListLiveData = MutableLiveData<PageBean<Article>>()
 
     fun getMainArticle(page: Int, isLoadMore: Boolean = false) {
         launchLoading {
@@ -104,6 +106,14 @@ class BaseArticleViewModel : BaseViewModel() {
                 api.searchArticleByAuthor(page, key)
             else api.searchKey(key, page)
             searchKey.wrap(isLoadMore)
+        }
+    }
+
+    fun getCollectList(page: Int, isLoadMore: Boolean = false) {
+        launchLoading {
+            val articles = api.getCollectList(page)
+            articles.throwFailedException()
+            collectListLiveData.postValue(articles.toPageBean(isLoadMore))
         }
     }
 }

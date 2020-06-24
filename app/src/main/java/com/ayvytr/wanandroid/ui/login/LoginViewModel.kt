@@ -15,7 +15,7 @@ class LoginViewModel : BaseViewModel() {
     val registerLiveData = MutableLiveData<ResponseWrapper<UserInfo>>()
     val logoutLiveData = MutableLiveData<ResponseWrapper<Any>>()
 
-    val api = ApiClient.getInstance().create(Api::class.java)
+    val api = ApiClient.create(Api::class.java)
 
     fun login(username: String, password: String) {
         launchWrapper(loginLiveData) {

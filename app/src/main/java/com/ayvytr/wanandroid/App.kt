@@ -24,7 +24,7 @@ class App : Application() {
 //        if(isMainProcess()) {
         GlobalScope.launch {
 
-            ApiClient.getInstance().init(
+            ApiClient.init(
                 Const.WANANDROID_BASE_URL, 20, cache = null,
                 enableCookieJar = true
             )

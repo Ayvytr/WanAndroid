@@ -10,7 +10,7 @@ import com.ayvytr.wanandroid.bean.Banner
 import com.ayvytr.wanandroid.bean.toResponseWrapper
 
 class TopViewModel : BaseViewModel() {
-    val api = ApiClient.getInstance().create(Api::class.java)
+    val api = ApiClient.create(Api::class.java)
 
     val bannerLiveData = MutableLiveData<ResponseWrapper<List<Banner>>>()
     val topArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()

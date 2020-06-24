@@ -130,7 +130,39 @@ interface Api {
         @Path("page") page: Int
     ): BaseData<MainArticle>
 
-    //收藏：暂不提供
+    /**
+     * 收藏文章列表
+     * @param page 从0开始
+     */
+    @GET("lg/collect/list/{page}/json")
+    suspend fun getCollectList(@Path("page") page: Int): BaseData<MainArticle>
+
+    /**
+     * 收藏站内文章
+     * @param id 文章id
+     */
+    @FormUrlEncoded
+    @POST("lg/collect/{id}/json")
+    suspend fun collectArticleById(@Path("id") id: Int)
+
+    /**
+     * 文章列表取消收藏
+     */
+    @FormUrlEncoded
+    @POST("lg/uncollect_originId/{id}/json")
+    suspend fun cancelCollect(@Path("id") id: Int)
+
+    /**
+     * 我的收藏页面取消收藏
+     * @param id 文章id
+     * @param originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId
+     * 则为-1
+     */
+    @FormUrlEncoded
+    @POST("lg/uncollect/{id}/json")
+    suspend fun cancelCollectFromList(@Path("id") id: Int, @Field("originId") originId: Int)
+
+    //收藏网站列表：未整理
 
     /**
      * 搜索，支持多个关键词，用空格隔开.

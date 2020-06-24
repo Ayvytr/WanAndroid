@@ -12,7 +12,7 @@ import kotlinx.coroutines.MainScope
  */
 
 class Repository : CoroutineScope by MainScope() {
-    val api = ApiClient.getInstance().create(Api::class.java)
+    val api = ApiClient.create(Api::class.java)
 //    val dao = DbManager.getInstance().db.wanDao()
 
     suspend fun getMainArticle(page: Int): BaseData<MainArticle> {

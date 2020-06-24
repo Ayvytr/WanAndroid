@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.smart
 import com.ayvytr.ktx.ui.show
-import com.ayvytr.logger.L
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.PageBean
@@ -15,6 +14,7 @@ import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.item_article.view.*
+import kotlinx.coroutines.cancel
 import org.jetbrains.anko.startActivity
 
 /**
@@ -55,6 +55,11 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
             tv_title.text = it.title?.parseAsHtml()
             tv_desc.text = it.desc?.parseAsHtml()
             tv_desc.show(it.title != it.desc)
+            iv_collect.isSelected = it.collect
+            iv_collect.setOnClickListener { _ ->
+                //TODO 收藏和取消收藏
+//                performCollect(it)
+            }
         }) {
             itemClick = { t, i ->
                 requireContext().startActivity<WebViewActivity>(
