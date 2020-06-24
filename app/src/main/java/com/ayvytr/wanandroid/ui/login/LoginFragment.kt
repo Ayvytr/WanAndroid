@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.ayvytr.coroutine.BaseCoroutineFragment
+import com.ayvytr.ktx.ui.setActivityTitle
 import com.ayvytr.ktx.ui.show
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.base.ResponseObserver
 import com.ayvytr.wanandroid.bean.UserInfo
 import com.ayvytr.wanandroid.hideInputMethod
 import com.ayvytr.wanandroid.local.Kv
-import com.ayvytr.wanandroid.setActivityTitle
 import com.ayvytr.wanandroid.ui.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_login.*
 
