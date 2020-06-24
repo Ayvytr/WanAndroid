@@ -7,10 +7,11 @@ import android.os.Process
 import com.ayvytr.ktx.provider.ContextProvider
 import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.db.DbManager
+import com.bumptech.glide.Glide
 import com.tencent.mmkv.MMKV
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import leakcanary.LeakCanary
 
 
 /**
@@ -21,10 +22,17 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 //        if(isMainProcess()) {
-            ApiClient.getInstance().init(Const.WANANDROID_BASE_URL, 20, cache = null,
-                enableCookieJar = true)
-            DbManager.getInstance().init(this)
+        GlobalScope.launch {
+
+            ApiClient.getInstance().init(
+                Const.WANANDROID_BASE_URL, 20, cache = null,
+                enableCookieJar = true
+            )
+            DbManager.getInstance().init(applicationContext)
             MMKV.initialize(ContextProvider.getContext())
+            Glide.with(applicationContext)
+
+        }
 //        }
     }
 
