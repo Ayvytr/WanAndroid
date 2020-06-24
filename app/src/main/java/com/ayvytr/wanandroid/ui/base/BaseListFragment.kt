@@ -70,4 +70,10 @@ abstract class BaseListFragment<T : BaseViewModel, B> : BaseCoroutineFragment<T>
         }
     }
 
+    override fun onDestroyView() {
+        mAdapter.clear()
+        rv.adapter = null
+        rv.layoutManager = null
+        super.onDestroyView()
+    }
 }

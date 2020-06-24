@@ -117,4 +117,13 @@ class TopFragment : BaseCoroutineFragment<TopViewModel>() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        bannerAdapter.setDatas(emptyList())
+        bannerAdapter.notifyDataSetChanged()
+
+        topArticleAdapter.clear()
+        rv.adapter = null
+        super.onDestroyView()
+    }
 }

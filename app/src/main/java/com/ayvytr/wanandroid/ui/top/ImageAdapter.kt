@@ -23,7 +23,7 @@ class ImageAdapter(mDatas: List<Banner>?) :
     }
 
 
-    inner class BannerViewHolder(var imageView: ImageView) :
+    class BannerViewHolder(var imageView: ImageView) :
         RecyclerView.ViewHolder(imageView) {
 
         fun bind(data: Banner, position: Int) {

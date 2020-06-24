@@ -83,7 +83,7 @@ class WxArticleFragment : BaseArticleFragment() {
                 mAdapter.update(it.data!!, it.isLoadMore)
 
                 if (mAdapter.isEmpty()) {
-                    status_view.showEmpty("未搜索到结果")
+                    status_view.showEmpty(getString(R.string.search_no_value))
                 } else {
                     status_view.showContent()
                 }
@@ -138,5 +138,12 @@ class WxArticleFragment : BaseArticleFragment() {
             refresh_layout.finishRefresh()
             refresh_layout.finishLoadMore()
         }
+    }
+
+    override fun onDestroyView() {
+        categoryAdapter.clear()
+        rv_category.adapter = null
+        rv_category.layoutManager = null
+        super.onDestroyView()
     }
 }
