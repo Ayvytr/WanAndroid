@@ -1,19 +1,19 @@
 package com.ayvytr.wanandroid.ui.login
 
 import androidx.lifecycle.MutableLiveData
-import com.ayvytr.coroutine.bean.ResponseWrapper
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
-import com.ayvytr.coroutine.wrapper
+import com.ayvytr.logger.L
 import com.ayvytr.network.ApiClient
+import com.ayvytr.network.bean.ResponseWrapper
 import com.ayvytr.wanandroid.api.Api
-import com.ayvytr.wanandroid.bean.BaseData
 import com.ayvytr.wanandroid.bean.UserInfo
 import com.ayvytr.wanandroid.bean.wrap
+import com.ayvytr.wanandroid.local.Kv
 
 class LoginViewModel : BaseViewModel() {
     val loginLiveData = MutableLiveData<ResponseWrapper<UserInfo>>()
     val registerLiveData = MutableLiveData<ResponseWrapper<UserInfo>>()
-    val logoutLiveData = MutableLiveData<ResponseWrapper<Any>>()
+    val logoutLiveData = MutableLiveData<ResponseWrapper<Unit>>()
 
     val api = ApiClient.create(Api::class.java)
 
@@ -25,8 +25,13 @@ class LoginViewModel : BaseViewModel() {
     }
 
     fun logout() {
+        L.e("logout")
         launchWrapper(logoutLiveData) {
-            api.logout().wrapper()
+            L.e("logout n call")
+            val result = api.logout()
+            ApiClient.cookieJar.clear()
+            Kv.clear()
+            result.wrap()
         }
     }
 

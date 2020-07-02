@@ -23,7 +23,7 @@ interface Api {
     ): BaseData<UserInfo>
 
     @GET("user/logout/json")
-    suspend fun logout()
+    suspend fun logout(): BaseData<Unit>
 
     //首页
     /**
@@ -65,7 +65,7 @@ interface Api {
     @GET("wxarticle/list/{id}/{page}/json")
     suspend fun searchWxArticle(@Path("id") id: Int,
                                 @Path("page") page: Int,
-                                @Query("k") key: String): BaseData<MainArticle>
+                                @Query("k") key: String?): BaseData<MainArticle>
 
     /**
      * 常用网站

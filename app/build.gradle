@@ -52,7 +52,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation project(path: ':network')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -78,11 +77,11 @@ dependencies {
     implementation deps.logger
 //    implementation deps.okhttploginterceptor
     implementation deps.ktx
-    implementation deps.base_coroutine_activity_androidx
     implementation deps.smartadapter
     implementation deps.smartrefresh
-//    implementation deps.network
+    implementation deps.network
     implementation deps.customviews
+    implementation deps.mvvm
 
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -95,5 +94,7 @@ dependencies {
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     implementation 'com.squareup.leakcanary:plumber-android:2.4'
+
+    implementation 'com.tencent.bugly:crashreport:3.1.0'
 
 }

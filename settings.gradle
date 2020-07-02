@@ -1,4 +1,2 @@
-include ':okhttploginterceptor'
-include ':network'
 rootProject.name='WanAndroid'
 include ':app'

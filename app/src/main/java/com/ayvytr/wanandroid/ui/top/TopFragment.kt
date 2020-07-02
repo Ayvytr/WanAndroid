@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
 import androidx.lifecycle.Observer
 import com.ayvytr.adapter.smart
-import com.ayvytr.coroutine.BaseCoroutineFragment
+import com.ayvytr.coroutine.BaseFragment
 import com.ayvytr.ktx.context.dp
 import com.ayvytr.ktx.ui.hide
 import com.ayvytr.ktx.ui.show
@@ -29,7 +29,7 @@ import org.jetbrains.anko.startActivity
  * @author Administrator
  */
 
-class TopFragment : BaseCoroutineFragment<TopViewModel>() {
+class TopFragment : BaseFragment<TopViewModel>() {
     private val bannerAdapter by lazy { ImageAdapter(listOf()) }
     private val topArticleAdapter by lazy {
         smart(listOf<Article>(), R.layout.item_article, {
@@ -79,8 +79,7 @@ class TopFragment : BaseCoroutineFragment<TopViewModel>() {
         }
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-        super.initData(savedInstanceState)
+    override fun initLiveDataObserver() {
         mViewModel.bannerLiveData.observe(this, Observer {
             if (it.isSucceed) {
                 bannerAdapter.setDatas(it.data)
@@ -103,6 +102,10 @@ class TopFragment : BaseCoroutineFragment<TopViewModel>() {
             }
             refresh_layout.finishRefresh()
         })
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+        super.initData(savedInstanceState)
 
         mViewModel.getBanner()
         mViewModel.getTopArticle()

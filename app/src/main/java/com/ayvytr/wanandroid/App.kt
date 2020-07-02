@@ -4,10 +4,12 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.os.Process
+import androidx.lifecycle.LifecycleObserver
 import com.ayvytr.ktx.provider.ContextProvider
 import com.ayvytr.network.ApiClient
 import com.ayvytr.wanandroid.db.DbManager
 import com.bumptech.glide.Glide
+import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,6 +24,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 //        if(isMainProcess()) {
+        CrashReport.initCrashReport(applicationContext, "c9c54ee454", BuildConfig.DEBUG);
+
         GlobalScope.launch {
 
             ApiClient.init(

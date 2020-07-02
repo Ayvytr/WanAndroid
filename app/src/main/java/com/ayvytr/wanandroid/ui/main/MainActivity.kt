@@ -6,13 +6,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ayvytr.coroutine.BaseCoroutineActivity
+import com.ayvytr.coroutine.BaseActivity
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : BaseCoroutineActivity<BaseViewModel>() {
+class MainActivity : BaseActivity<BaseViewModel>() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 

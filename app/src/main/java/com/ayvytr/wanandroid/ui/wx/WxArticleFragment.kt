@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
+import com.ayvytr.logger.L
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import kotlinx.android.synthetic.main.fragment_wx_article.*
@@ -15,66 +16,18 @@ class WxArticleFragment : BaseArticleFragment() {
     private lateinit var mSearchView: SearchView
     private lateinit var mSearchAutoComplete: SearchView.SearchAutoComplete
 
-    private var lastCategoryIndex = -1;
+    private var lastCategoryIndex = -1
 
     private val categoryAdapter by lazy {
         WxCategoryAdapter(requireContext())
     }
 
-    override fun loadData(page: Int, isLoadMore: Boolean) {
-        if (::mSearchView.isInitialized && mSearchAutoComplete.isFocused) {
-            mViewModel.searchWxArticle(
-                categoryAdapter.currentCategory(),
-                mSearchAutoComplete.text.toString(),
-                page,
-                isLoadMore
-            )
-        } else {
-            if (categoryAdapter.currentIndex != -1) {
-                mViewModel.getWxArticle(categoryAdapter.currentCategory(), page, isLoadMore)
-            }
-        }
-        refresh_layout.autoRefresh()
-    }
-
-//    override fun getListLiveData(): MutableLiveData<PageBean<Article>> {
-//        return mViewModel.wxArticleLiveData
-//    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_wx_article, container, false)
-    }
-
-    override fun initView(savedInstanceState: Bundle?) {
-        super.initView(savedInstanceState)
-        categoryAdapter.itemClickListener = { item, i ->
-            if (categoryAdapter.currentIndex != i) {
-                changeCategory(i)
-            }
-        }
-        rv_category.adapter = categoryAdapter
-
-        setHasOptionsMenu(true)
-        status_view.showContent()
-
-    }
-
-    private fun changeCategory(i: Int) {
-        categoryAdapter.currentIndex = i
-        loadData(firstPage)
-    }
-
-    override fun initData(savedInstanceState: Bundle?) {
-        firstPage = 1
-
+    override fun initLiveDataObserver() {
         mViewModel.wxCategoryLiveData.observe(this, Observer {
             categoryAdapter.update(it)
             categoryAdapter.resetIndex()
 
-            loadData(firstPage)
+            refresh_layout.autoRefresh()
         })
 
         mViewModel.wxArticleLiveData.observe(this, Observer {
@@ -94,11 +47,55 @@ class WxArticleFragment : BaseArticleFragment() {
                 if (lastCategoryIndex != -1) {
                     categoryAdapter.currentIndex = lastCategoryIndex
                 }
-                it.exception?.message?.let {
-                    showMessage(it)
-                }
+                showMessage(it.message)
             }
         })
+    }
+
+    override fun loadData(page: Int, isLoadMore: Boolean) {
+        if (::mSearchView.isInitialized && mSearchAutoComplete.isFocused) {
+            mViewModel.searchWxArticle(
+                categoryAdapter.currentCategory(),
+                mSearchAutoComplete.text.toString(),
+                page,
+                isLoadMore
+            )
+        } else {
+            if (categoryAdapter.currentIndex != -1) {
+                mViewModel.getWxArticle(categoryAdapter.currentCategory(), page, isLoadMore)
+            }
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_wx_article, container, false)
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
+        categoryAdapter.itemClickListener = { item, i ->
+            changeCategory(i)
+        }
+        rv_category.adapter = categoryAdapter
+
+        setHasOptionsMenu(true)
+        status_view.showContent()
+
+    }
+
+    private fun changeCategory(i: Int) {
+        if (i != categoryAdapter.currentIndex) {
+            categoryAdapter.currentIndex = i
+            refresh_layout.autoRefresh()
+        }
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+        firstPage = 1
+
         mViewModel.getWxArticleCategory()
     }
 
@@ -119,13 +116,13 @@ class WxArticleFragment : BaseArticleFragment() {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                loadData(1)
+                loadData(firstPage)
                 return true
             }
         }
         mSearchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                loadData(1)
+                loadData(firstPage)
             }
         }
         mSearchView.setOnQueryTextListener(queryTextListener)

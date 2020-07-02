@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
-import com.ayvytr.coroutine.BaseCoroutineFragment
+import com.ayvytr.coroutine.BaseFragment
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import com.ayvytr.wanandroid.ui.ask.AskFragment
-import com.ayvytr.wanandroid.ui.collect.MyCollectFragment
 import com.ayvytr.wanandroid.ui.my.MyFragment
 import com.ayvytr.wanandroid.ui.project.ProjectFragment
 import com.ayvytr.wanandroid.ui.square.SquareFragment
@@ -20,9 +19,8 @@ import com.ayvytr.wanandroid.ui.wx.WxArticleFragment
 import com.ayvytr.wanandroid.uisearch.SearchFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
+class HomeFragment : BaseFragment<BaseViewModel>() {
     private val fragments = listOf(
-        MyCollectFragment(),
         SearchFragment(),
         TopFragment(),
         AskFragment(),
@@ -33,7 +31,8 @@ class HomeFragment : BaseCoroutineFragment<BaseViewModel>() {
         MyFragment()
     )
     private val titles = listOf(
-        "收藏", "搜一搜", "轮播和置顶", "问答", "首页文章", "最新项目", "广场", "公众号列表", "我的"
+        "搜一搜", "轮播和置顶", "问答", "首页文章", "最新项目", "广场", "公众号列表",
+        "我的"
     )
 
     override fun onCreateView(

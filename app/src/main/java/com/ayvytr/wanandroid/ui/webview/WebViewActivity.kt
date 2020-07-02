@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.os.Process
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.ayvytr.coroutine.BaseCoroutineActivity
+import com.ayvytr.coroutine.BaseActivity
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import kotlinx.android.synthetic.main.activity_web_view.*
 import kotlin.system.exitProcess
 
-class WebViewActivity : BaseCoroutineActivity<BaseViewModel>() {
+class WebViewActivity : BaseActivity<BaseViewModel>() {
     var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.ayvytr.coroutine.BaseCoroutineFragment
+import com.ayvytr.coroutine.BaseFragment
 import com.ayvytr.ktx.ui.setActivityTitle
 import com.ayvytr.ktx.ui.show
 import com.ayvytr.wanandroid.R
-import com.ayvytr.wanandroid.base.ResponseObserver
+import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.wanandroid.bean.UserInfo
 import com.ayvytr.wanandroid.hideInputMethod
 import com.ayvytr.wanandroid.local.Kv
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 /**
  * @author Administrator
  */
-class LoginFragment : BaseCoroutineFragment<LoginViewModel>() {
+class LoginFragment : BaseFragment<LoginViewModel>() {
     var isLogin = false
 
     val loadingDialog by lazy {
@@ -124,21 +124,27 @@ class LoginFragment : BaseCoroutineFragment<LoginViewModel>() {
         return false
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-        super.initData(savedInstanceState)
-        mViewModel.loginLiveData.observe(this, object : ResponseObserver<UserInfo> {
+    override fun initLiveDataObserver() {
+        super.initLiveDataObserver()
+        mViewModel.loginLiveData.observe(this, object :
+            WrapperObserver<UserInfo> {
             override fun onSucceed(data: UserInfo) {
                 showMessage(R.string.login_succeed)
                 Kv.setUserInfo(data)
                 findNavController().navigateUp()
             }
 
-            override fun onError(exception: Throwable, message: String) {
+            override fun onError(
+                exception: Throwable,
+                message: String,
+                messageStringId: Int
+            ) {
                 showMessage(message)
             }
         })
 
-        mViewModel.registerLiveData.observe(this, object : ResponseObserver<UserInfo> {
+        mViewModel.registerLiveData.observe(this, object :
+            WrapperObserver<UserInfo> {
             override fun onSucceed(data: UserInfo) {
                 Kv.setUserInfo(data)
                 findNavController().navigateUp()

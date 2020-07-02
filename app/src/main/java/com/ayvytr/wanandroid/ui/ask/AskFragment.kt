@@ -1,8 +1,8 @@
 package com.ayvytr.wanandroid.ui.ask
 
 import androidx.lifecycle.MutableLiveData
+import com.ayvytr.network.bean.ResponseWrapper
 import com.ayvytr.wanandroid.bean.Article
-import com.ayvytr.wanandroid.bean.PageBean
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 
 /**
@@ -14,7 +14,7 @@ class AskFragment : BaseArticleFragment() {
         mViewModel.getAskArticle(page, isLoadMore)
     }
 
-    override fun getListLiveData(): MutableLiveData<PageBean<Article>> {
+    override fun getListLiveData(): MutableLiveData<ResponseWrapper<List<Article>>> {
         return mViewModel.askLiveData
     }
 }

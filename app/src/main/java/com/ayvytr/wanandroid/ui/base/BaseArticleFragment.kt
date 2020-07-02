@@ -4,17 +4,19 @@ import android.os.Bundle
 import androidx.core.text.parseAsHtml
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.smart
 import com.ayvytr.ktx.ui.show
+import com.ayvytr.logger.L
+import com.ayvytr.network.bean.ResponseWrapper
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
-import com.ayvytr.wanandroid.bean.PageBean
+import com.ayvytr.wanandroid.bean.isNotLogin
 import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
 import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.item_article.view.*
-import kotlinx.coroutines.cancel
 import org.jetbrains.anko.startActivity
 
 /**
@@ -27,16 +29,23 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
         return BaseArticleViewModel::class.java
     }
 
-    open fun getListLiveData(): MutableLiveData<PageBean<Article>> {
+    open fun getListLiveData(): MutableLiveData<ResponseWrapper<List<Article>>> {
         return mViewModel.articleLiveData
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-        super.initData(savedInstanceState)
+    override fun initLiveDataObserver() {
+        super.initLiveDataObserver()
         getListLiveData().observe(this, Observer {
 //            articleAdapter.submitList(it)
-            page = it.page
-            mAdapter.update(it.list, it.isLoadMore)
+            if(it.isSucceed) {
+                page = it.page
+                mAdapter.update(it.dataNonNull, it.isLoadMore)
+            } else {
+                if(it.isNotLogin()) {
+                    showMessage(it.message)
+                }
+                L.e(it.code, it.exception, it.message)
+            }
 
             if (mAdapter.isEmpty()) {
                 status_view.showEmpty(getString(R.string.search_no_value))
@@ -44,7 +53,13 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
                 status_view.showContent()
             }
             refresh_layout.setEnableLoadMore(it.hasMore)
+            refresh_layout.finishRefresh()
         })
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+        super.initData(savedInstanceState)
+
         loadData(firstPage)
     }
 

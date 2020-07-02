@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.ayvytr.adapter.SmartAdapter
-import com.ayvytr.coroutine.BaseCoroutineFragment
+import com.ayvytr.coroutine.BaseFragment
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -16,11 +16,11 @@ import kotlinx.android.synthetic.main.fragment_article.*
 /**
  * @author Administrator
  */
-abstract class BaseListFragment<T : BaseViewModel, B> : BaseCoroutineFragment<T>() {
+abstract class BaseListFragment<T : BaseViewModel, B> : BaseFragment<T>() {
     lateinit var mAdapter: SmartAdapter<B>
 
     protected var firstPage = 0
-    protected var page = 0
+    protected var page = firstPage
 
     override fun onCreateView(
         inflater: LayoutInflater,
