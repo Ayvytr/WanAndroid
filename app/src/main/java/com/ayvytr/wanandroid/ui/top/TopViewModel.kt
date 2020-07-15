@@ -16,9 +16,8 @@ class TopViewModel : BaseViewModel() {
     val topArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
     fun getBanner() {
-        launchLoading {
-            val banner = api.getBanner()
-            bannerLiveData.postValue(banner.wrap())
+        launchWrapper(bannerLiveData) {
+            api.getBanner().wrap()
         }
     }
 

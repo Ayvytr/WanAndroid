@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.ayvytr.coroutine.BaseFragment
+import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.ktx.ui.setActivityTitle
 import com.ayvytr.ktx.ui.show
 import com.ayvytr.wanandroid.R
-import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.wanandroid.bean.UserInfo
 import com.ayvytr.wanandroid.hideInputMethod
 import com.ayvytr.wanandroid.local.Kv
@@ -126,25 +126,27 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
     override fun initLiveDataObserver() {
         super.initLiveDataObserver()
+        mViewModel.loginLiveData.observe(
+            this,
+            object : WrapperObserver<UserInfo>(this) {
+                override fun onSucceed(data: UserInfo) {
+                    showMessage(R.string.login_succeed)
+                    Kv.setUserInfo(data)
+                    findNavController().navigateUp()
+                }
+            }
+        )
         mViewModel.loginLiveData.observe(this, object :
-            WrapperObserver<UserInfo> {
+            WrapperObserver<UserInfo>(this) {
             override fun onSucceed(data: UserInfo) {
                 showMessage(R.string.login_succeed)
                 Kv.setUserInfo(data)
                 findNavController().navigateUp()
             }
-
-            override fun onError(
-                exception: Throwable,
-                message: String,
-                messageStringId: Int
-            ) {
-                showMessage(message)
-            }
         })
 
         mViewModel.registerLiveData.observe(this, object :
-            WrapperObserver<UserInfo> {
+            WrapperObserver<UserInfo>(this) {
             override fun onSucceed(data: UserInfo) {
                 Kv.setUserInfo(data)
                 findNavController().navigateUp()

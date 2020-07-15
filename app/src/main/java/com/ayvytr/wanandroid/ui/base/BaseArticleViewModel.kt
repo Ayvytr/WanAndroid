@@ -2,13 +2,14 @@ package com.ayvytr.wanandroid.ui.base
 
 import androidx.lifecycle.MutableLiveData
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
-import com.ayvytr.logger.L
 import com.ayvytr.network.ApiClient
 import com.ayvytr.network.bean.ResponseWrapper
+import com.ayvytr.network.wrap
 import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.bean.wrap
+import com.ayvytr.wanandroid.copy
 import com.ayvytr.wanandroid.db.DbManager
 
 /**
@@ -22,7 +23,7 @@ class BaseArticleViewModel : BaseViewModel() {
     val projectLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
     val squareLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
-    val wxCategoryLiveData = MutableLiveData<List<WxArticleCategory>>()
+    val wxCategoryLiveData = MutableLiveData<ResponseWrapper<List<WxArticleCategory>>>()
 
     val wxArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
@@ -31,6 +32,7 @@ class BaseArticleViewModel : BaseViewModel() {
     val askLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
     val collectListLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
+    val collectLiveData = MutableLiveData<ResponseWrapper<Int>>()
 
     fun getMainArticle(page: Int, isLoadMore: Boolean = false) {
         launchWrapper(articleLiveData) {
@@ -52,16 +54,13 @@ class BaseArticleViewModel : BaseViewModel() {
 
 
     fun getWxArticleCategory() {
-        launchLoading {
-            val wxArticleCategory = api.getWxArticleCategory()
-            wxArticleCategory.throwFailedException()
-            wxCategoryLiveData.postValue(wxArticleCategory.data!!)
+        launchWrapper(wxCategoryLiveData) {
+            api.getWxArticleCategory().wrap()
         }
     }
 
     fun getWxArticle(id: Int, page: Int, isLoadMore: Boolean = false) {
         launchWrapper(wxArticleLiveData) {
-            L.e()
             val wxArticle = api.getWxArticlesById(id, page)
             wxArticle.wrap(isLoadMore)
         }
@@ -69,7 +68,6 @@ class BaseArticleViewModel : BaseViewModel() {
 
     fun searchWxArticle(id: Int, key: String?, page: Int, isLoadMore: Boolean) {
         launchWrapper(wxArticleLiveData) {
-            L.e()
             val wxArticle = api.searchWxArticle(id, page, key)
             wxArticle.wrap(isLoadMore)
         }
@@ -96,8 +94,15 @@ class BaseArticleViewModel : BaseViewModel() {
     }
 
     fun getCollectList(page: Int, isLoadMore: Boolean = false) {
-        launchWrapper(collectListLiveData){
+        launchWrapper(collectListLiveData) {
             api.getCollectList(page).wrap(isLoadMore)
+        }
+    }
+
+    fun collect(id: Int, collect: Boolean, position: Int) {
+        launchWrapper(collectLiveData) {
+            val value = if (collect) api.cancelCollect(id) else api.collectArticleById(id)
+            value.wrap().copy(position)
         }
     }
 }

@@ -141,16 +141,14 @@ interface Api {
      * 收藏站内文章
      * @param id 文章id
      */
-    @FormUrlEncoded
     @POST("lg/collect/{id}/json")
-    suspend fun collectArticleById(@Path("id") id: Int)
+    suspend fun collectArticleById(@Path("id") id: Int): BaseData<Unit>
 
     /**
      * 文章列表取消收藏
      */
-    @FormUrlEncoded
     @POST("lg/uncollect_originId/{id}/json")
-    suspend fun cancelCollect(@Path("id") id: Int)
+    suspend fun cancelCollect(@Path("id") id: Int): BaseData<Unit>
 
     /**
      * 我的收藏页面取消收藏
@@ -158,7 +156,6 @@ interface Api {
      * @param originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId
      * 则为-1
      */
-    @FormUrlEncoded
     @POST("lg/uncollect/{id}/json")
     suspend fun cancelCollectFromList(@Path("id") id: Int, @Field("originId") originId: Int)
 

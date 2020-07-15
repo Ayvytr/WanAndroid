@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import com.ayvytr.logger.L
+import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.wanandroid.R
+import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import kotlinx.android.synthetic.main.fragment_wx_article.*
 
@@ -19,16 +20,21 @@ class WxArticleFragment : BaseArticleFragment() {
     private var lastCategoryIndex = -1
 
     private val categoryAdapter by lazy {
-        WxCategoryAdapter(requireContext())
+        WxCategoryAdapter()
     }
 
     override fun initLiveDataObserver() {
-        mViewModel.wxCategoryLiveData.observe(this, Observer {
-            categoryAdapter.update(it)
-            categoryAdapter.resetIndex()
+        mViewModel.wxCategoryLiveData.observe(
+            this,
+            object : WrapperObserver<List<WxArticleCategory>>(this) {
+                override fun onSucceed(data: List<WxArticleCategory>) {
+                    categoryAdapter.update(data)
+                    categoryAdapter.resetIndex()
 
-            refresh_layout.autoRefresh()
-        })
+                    refresh_layout.autoRefresh()
+                }
+
+            })
 
         mViewModel.wxArticleLiveData.observe(this, Observer {
             if (it.isSucceed) {

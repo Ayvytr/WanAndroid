@@ -52,9 +52,9 @@ deps.base_adapter = "com.ayvytr:base-adapter:1.4.1"
 deps.logger = "com.ayvytr:logger:+"
 deps.network = "com.ayvytr:network:2.3.0"
 deps.okhttploginterceptor = "com.ayvytr:okhttploginterceptor:+"
-deps.ktx = "com.ayvytr:ktx-androidx:2.5.4"
-deps.smartadapter= "com.ayvytr:smart-adapter:+"
-deps.mvvm = "com.ayvytr:mvvm-androidx:0.1.0"
+deps.ktx = "com.ayvytr:ktx-androidx:3.0.0"
+deps.smartadapter= "com.ayvytr:smart-adapter:0.3.2"
+deps.mvvm = "com.ayvytr:mvvm-androidx:0.1.1"
 //end ayvytr
 
 

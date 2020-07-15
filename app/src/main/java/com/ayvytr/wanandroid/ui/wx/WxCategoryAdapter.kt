@@ -1,6 +1,5 @@
 package com.ayvytr.wanandroid.ui.wx
 
-import android.content.Context
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.SmartContainer
 import com.ayvytr.wanandroid.R
@@ -10,10 +9,10 @@ import kotlinx.android.synthetic.main.item_wx_article_category.view.*
 /**
  * @author Administrator
  */
-class WxCategoryAdapter(context: Context) :
-    SmartAdapter<WxArticleCategory>(context) {
+class WxCategoryAdapter() :
+    SmartAdapter<WxArticleCategory>() {
     init {
-        map(SmartContainer(R.layout.item_wx_article_category, 0) {
+        map(SmartContainer(R.layout.item_wx_article_category, 0) { it, _ ->
             tv.text = it.name
             tv.isSelected = it.selected
         })
@@ -21,7 +20,7 @@ class WxCategoryAdapter(context: Context) :
 
 
     var currentIndex = -1
-//        private set
+        //        private set
         set(value) {
             if(value < 0) {
                 return

@@ -32,7 +32,7 @@ import org.jetbrains.anko.startActivity
 class TopFragment : BaseFragment<TopViewModel>() {
     private val bannerAdapter by lazy { ImageAdapter(listOf()) }
     private val topArticleAdapter by lazy {
-        smart(listOf<Article>(), R.layout.item_article, {
+        smart(listOf<Article>(), R.layout.item_article, {it,_->
             iv.loadImage(it.envelopePic)
             tv_title.text = it.title.parseAsHtml()
             tv_desc.text = it.desc?.parseAsHtml()

@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.core.text.parseAsHtml
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.smart
 import com.ayvytr.ktx.ui.show
@@ -55,6 +54,15 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
             refresh_layout.setEnableLoadMore(it.hasMore)
             refresh_layout.finishRefresh()
         })
+        mViewModel.collectLiveData.observe(this, Observer {
+            if(it.isSucceed) {
+                val article = mAdapter.list[it.dataNonNull]
+                article.collect = !article.collect
+                mAdapter.notifyItemChanged(it.dataNonNull)
+            } else {
+                showMessage(it.message)
+            }
+        })
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -65,15 +73,14 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
 
 
     override fun getAdapter(): SmartAdapter<Article> {
-        return smart(listOf(), R.layout.item_article, {
+        return smart(listOf(), R.layout.item_article, { it, position ->
             iv.loadImage(it.envelopePic)
             tv_title.text = it.title?.parseAsHtml()
             tv_desc.text = it.desc?.parseAsHtml()
             tv_desc.show(it.title != it.desc)
             iv_collect.isSelected = it.collect
             iv_collect.setOnClickListener { _ ->
-                //TODO 收藏和取消收藏
-//                performCollect(it)
+                performCollect(it.id, it.collect, position)
             }
         }) {
             itemClick = { t, i ->
@@ -84,6 +91,10 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
             }
             diff()
         }
+    }
+
+    private fun performCollect(id: Int, isCollect: Boolean, position: Int) {
+        mViewModel.collect(id, isCollect, position)
     }
 
 
