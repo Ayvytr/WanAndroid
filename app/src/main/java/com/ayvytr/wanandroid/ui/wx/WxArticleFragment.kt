@@ -3,12 +3,21 @@ package com.ayvytr.wanandroid.ui.wx
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ayvytr.coroutine.observer.WrapperObserver
+import com.ayvytr.ktx.ui.isGone
+import com.ayvytr.ktx.ui.isShow
+import com.ayvytr.logger.L
+import com.ayvytr.network.bean.ResponseWrapper
+import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
+import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.constant.RefreshState
 import kotlinx.android.synthetic.main.fragment_wx_article.*
+import kotlinx.android.synthetic.main.layout_refresh_and_state.*
 
 /**
  * @author Administrator
@@ -27,7 +36,10 @@ class WxArticleFragment : BaseArticleFragment() {
         mViewModel.wxCategoryLiveData.observe(
             this,
             object : WrapperObserver<List<WxArticleCategory>>(this) {
-                override fun onSucceed(data: List<WxArticleCategory>) {
+                override fun onSucceed(
+                    data: List<WxArticleCategory>,
+                    wrapper: ResponseWrapper<List<WxArticleCategory>>
+                ) {
                     categoryAdapter.update(data)
                     categoryAdapter.resetIndex()
 
@@ -36,25 +48,36 @@ class WxArticleFragment : BaseArticleFragment() {
 
             })
 
-        mViewModel.wxArticleLiveData.observe(this, Observer {
-            if (it.isSucceed) {
-                page = it.page
-                mAdapter.update(it.data!!, it.isLoadMore)
+        mViewModel.wxArticleLiveData.observe(this, object : WrapperObserver<List<Article>>(this) {
+            override fun onSucceed(data: List<Article>, wrapper: ResponseWrapper<List<Article>>) {
+                page = wrapper.page
+                mAdapter.update(data, wrapper.isLoadMore)
 
                 if (mAdapter.isEmpty()) {
                     status_view.showEmpty(getString(R.string.search_no_value))
                 } else {
                     status_view.showContent()
                 }
-                refresh_layout.setEnableLoadMore(it.hasMore)
+                refresh_layout.setEnableLoadMore(wrapper.hasMore)
 
                 lastCategoryIndex = categoryAdapter.currentIndex
-            } else {
-                if (lastCategoryIndex != -1) {
-                    categoryAdapter.currentIndex = lastCategoryIndex
-                }
-                showMessage(it.message)
             }
+
+            override fun onError(
+                exception: ResponseException?,
+                message: String,
+                messageStringId: Int
+            ) {
+                if (message.isNullOrEmpty()) {
+
+                } else {
+                    super.onError(exception, message, messageStringId)
+                    if (lastCategoryIndex != -1) {
+                        categoryAdapter.currentIndex = lastCategoryIndex
+                    }
+                }
+            }
+
         })
     }
 
@@ -93,10 +116,23 @@ class WxArticleFragment : BaseArticleFragment() {
     }
 
     private fun changeCategory(i: Int) {
-        if (i != categoryAdapter.currentIndex) {
+        //第一种方案：正在刷新或者刷新待完成不让切换
+        if (i != categoryAdapter.currentIndex && !refresh_layout.isRefreshing && !refresh_layout.state.isFinishing) {
+//        if (i != categoryAdapter.currentIndex) {
             categoryAdapter.currentIndex = i
-            refresh_layout.autoRefresh()
+
+            //下面方案不准确暂不使用
+//            if(refresh_layout.state.isFinishing || refresh_layout.state == RefreshState.Refreshing) {
+//            if(refresh_layout.state != RefreshState.None) {
+//            if((refresh_layout.refreshHeader as ClassicsHeader).isShow()) {
+//                L.e("正在刷新")
+//                loadData(firstPage)
+//            } else {
+//                L.e("autoRefresh")
+                refresh_layout.autoRefresh()
+//            }
         }
+
     }
 
     override fun initData(savedInstanceState: Bundle?) {

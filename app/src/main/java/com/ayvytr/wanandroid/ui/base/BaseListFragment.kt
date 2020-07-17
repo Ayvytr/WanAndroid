@@ -9,9 +9,9 @@ import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.coroutine.BaseFragment
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
-import kotlinx.android.synthetic.main.fragment_article.*
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
+import kotlinx.android.synthetic.main.layout_refresh_and_state.*
 
 /**
  * @author Administrator
@@ -27,7 +27,7 @@ abstract class BaseListFragment<T : BaseViewModel, B> : BaseFragment<T>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_article, container, false)
+        return inflater.inflate(R.layout.layout_refresh_and_state, container, false)
     }
 
     override fun initView(savedInstanceState: Bundle?) {

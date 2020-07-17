@@ -16,12 +16,12 @@ import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.DepthPageTransformer
 import kotlinx.android.synthetic.main.fragment_top.*
 import kotlinx.android.synthetic.main.item_article.view.*
+import kotlinx.android.synthetic.main.layout_refresh_and_state.*
 import org.jetbrains.anko.startActivity
 
 

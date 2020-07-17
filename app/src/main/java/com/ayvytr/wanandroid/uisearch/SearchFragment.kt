@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import com.ayvytr.logger.L
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
-import kotlinx.android.synthetic.main.fragment_article.*
+import kotlinx.android.synthetic.main.layout_refresh_and_state.*
 
 class SearchFragment() : BaseArticleFragment() {
     private lateinit var mSearchView: SearchView
@@ -20,7 +19,7 @@ class SearchFragment() : BaseArticleFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        return inflater.inflate(R.layout.layout_refresh_and_state, container, false)
     }
 
     override fun initView(savedInstanceState: Bundle?) {

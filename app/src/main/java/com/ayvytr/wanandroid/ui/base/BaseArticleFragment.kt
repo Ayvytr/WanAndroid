@@ -7,15 +7,14 @@ import androidx.lifecycle.Observer
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.smart
 import com.ayvytr.ktx.ui.show
-import com.ayvytr.logger.L
 import com.ayvytr.network.bean.ResponseWrapper
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.isNotLogin
 import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
-import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.item_article.view.*
+import kotlinx.android.synthetic.main.layout_refresh_and_state.*
 import org.jetbrains.anko.startActivity
 
 /**
@@ -43,7 +42,6 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
                 if(it.isNotLogin()) {
                     showMessage(it.message)
                 }
-                L.e(it.code, it.exception, it.message)
             }
 
             if (mAdapter.isEmpty()) {

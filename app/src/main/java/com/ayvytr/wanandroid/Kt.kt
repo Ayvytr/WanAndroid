@@ -7,6 +7,16 @@ import com.ayvytr.ktx.context.getInputMethodManager
 import com.ayvytr.network.bean.ResponseWrapper
 import com.bumptech.glide.Glide
 
+//refreshLayout.getState() == RefreshState.None //空闲状态
+//refreshLayout.getState() == RefreshState.Loading//代替 isLoading
+//refreshLayout.getState() == RefreshState.Refreshing//代替 isRefreshing
+//
+//refreshLayout.getState().isDragging //判断是否正在拖拽刷新控件（非拖拽列表）
+//refreshLayout.getState().isFinishing //判断动画是否正在结束
+//refreshLayout.getState().isHeader //判断当前是否处于 Header 的一系列状态中
+//refreshLayout.getState().isFooter //判断当前是否处于 Footer 的一系列状态中
+//refreshLayout.getState().isOpening // 等同于 isLoading || isRefreshing
+
 fun ImageView.loadImage(url: String?) {
     Glide.with(context)
         .load(url)
