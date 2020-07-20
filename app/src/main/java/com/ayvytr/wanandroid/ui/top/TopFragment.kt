@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
-import androidx.lifecycle.Observer
 import com.ayvytr.adapter.smart
 import com.ayvytr.coroutine.BaseFragment
+import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.ktx.context.dp
 import com.ayvytr.ktx.ui.hide
 import com.ayvytr.ktx.ui.show
+import com.ayvytr.network.bean.ResponseWrapper
+import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
+import com.ayvytr.wanandroid.bean.Banner
 import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
 import com.youth.banner.config.IndicatorConfig
@@ -80,27 +83,42 @@ class TopFragment : BaseFragment<TopViewModel>() {
     }
 
     override fun initLiveDataObserver() {
-        mViewModel.bannerLiveData.observe(this, Observer {
-            if (it.isSucceed) {
-                bannerAdapter.setDatas(it.data)
+        mViewModel.bannerLiveData.observe(this, object : WrapperObserver<List<Banner>>(this) {
+            override fun onSucceed(data: List<Banner>, wrapper: ResponseWrapper<List<Banner>>) {
+                bannerAdapter.setDatas(data)
                 bannerAdapter.notifyDataSetChanged()
                 banner.show()
-            } else {
+            }
+
+            override fun onError(
+                exception: ResponseException?,
+                message: String,
+                messageStringId: Int
+            ) {
+                super.onError(exception, message, messageStringId)
                 banner.hide()
             }
         })
-        mViewModel.topArticleLiveData.observe(this, Observer {
-            if (it.isSucceed) {
-                if (it.data!!.isEmpty()) {
+
+        mViewModel.topArticleLiveData.observe(this, object : WrapperObserver<List<Article>>(this) {
+            override fun onSucceed(data: List<Article>, wrapper: ResponseWrapper<List<Article>>) {
+                if (data.isEmpty()) {
                     status_view.showEmpty()
                 } else {
-                    topArticleAdapter.update(it.data!!)
+                    topArticleAdapter.update(data)
                     status_view.showContent()
                 }
-            } else {
-                status_view.showError(it.exception?.message)
+                refresh_layout.finishRefresh()
             }
-            refresh_layout.finishRefresh()
+
+            override fun onError(
+                exception: ResponseException?,
+                message: String,
+                messageStringId: Int
+            ) {
+                super.onError(exception, message, messageStringId)
+                refresh_layout.finishRefresh()
+            }
         })
     }
 
