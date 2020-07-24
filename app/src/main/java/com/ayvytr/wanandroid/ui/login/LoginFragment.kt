@@ -130,7 +130,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         mViewModel.loginLiveData.observe(
             this,
             object : WrapperObserver<UserInfo>(this) {
-                override fun onSucceed(data: UserInfo, wrapper: ResponseWrapper<UserInfo>) {
+                override fun onSucceed(data: UserInfo) {
                     showMessage(R.string.login_succeed)
                     Kv.setUserInfo(data)
                     findNavController().navigateUp()
@@ -139,7 +139,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         )
         mViewModel.loginLiveData.observe(this, object :
             WrapperObserver<UserInfo>(this) {
-            override fun onSucceed(data: UserInfo, wrapper: ResponseWrapper<UserInfo>) {
+            override fun onSucceed(data: UserInfo) {
                 showMessage(R.string.login_succeed)
                 Kv.setUserInfo(data)
                 findNavController().navigateUp()
@@ -148,7 +148,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
         mViewModel.registerLiveData.observe(this, object :
             WrapperObserver<UserInfo>(this) {
-            override fun onSucceed(data: UserInfo, wrapper: ResponseWrapper<UserInfo>) {
+            override fun onSucceed(data: UserInfo) {
                 Kv.setUserInfo(data)
                 findNavController().navigateUp()
             }

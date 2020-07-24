@@ -84,24 +84,20 @@ class TopFragment : BaseFragment<TopViewModel>() {
 
     override fun initLiveDataObserver() {
         mViewModel.bannerLiveData.observe(this, object : WrapperObserver<List<Banner>>(this) {
-            override fun onSucceed(data: List<Banner>, wrapper: ResponseWrapper<List<Banner>>) {
+            override fun onSucceed(data: List<Banner>) {
                 bannerAdapter.setDatas(data)
                 bannerAdapter.notifyDataSetChanged()
                 banner.show()
             }
 
-            override fun onError(
-                exception: ResponseException?,
-                message: String,
-                messageStringId: Int
-            ) {
-                super.onError(exception, message, messageStringId)
+            override fun onError( exception: ResponseException) {
+                super.onError(exception)
                 banner.hide()
             }
         })
 
         mViewModel.topArticleLiveData.observe(this, object : WrapperObserver<List<Article>>(this) {
-            override fun onSucceed(data: List<Article>, wrapper: ResponseWrapper<List<Article>>) {
+            override fun onSucceed(data: List<Article>) {
                 if (data.isEmpty()) {
                     status_view.showEmpty()
                 } else {
@@ -111,12 +107,8 @@ class TopFragment : BaseFragment<TopViewModel>() {
                 refresh_layout.finishRefresh()
             }
 
-            override fun onError(
-                exception: ResponseException?,
-                message: String,
-                messageStringId: Int
-            ) {
-                super.onError(exception, message, messageStringId)
+            override fun onError(exception: ResponseException) {
+                super.onError(exception)
                 refresh_layout.finishRefresh()
             }
         })

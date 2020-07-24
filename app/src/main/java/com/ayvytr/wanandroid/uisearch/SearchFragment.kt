@@ -3,8 +3,7 @@ package com.ayvytr.wanandroid.uisearch
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import com.ayvytr.coroutine.observer.WrapperObserver
-import com.ayvytr.network.bean.ResponseWrapper
+import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
@@ -32,18 +31,24 @@ class SearchFragment() : BaseArticleFragment() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        mViewModel.searchKeyLiveData.observe(this, object : WrapperObserver<List<Article>>(this) {
-            override fun onSucceed(data: List<Article>, wrapper: ResponseWrapper<List<Article>>) {
-                page = wrapper.page
-                mAdapter.update(data, wrapper.isLoadMore)
+        mViewModel.searchKeyLiveData.observe(this, object : WrapperListObserver<List<Article>>(this) {
+            override fun onSucceed(
+                data: List<Article>,
+                p: Int,
+                loadMore: Boolean,
+                hasMore: Boolean
+            ) {
+                page = p
+                mAdapter.update(data, loadMore)
 
                 if (mAdapter.isEmpty()) {
                     status_view.showEmpty(getString(R.string.search_no_value))
                 } else {
                     status_view.showContent()
                 }
-                refresh_layout.setEnableLoadMore(wrapper.hasMore)
+                refresh_layout.setEnableLoadMore(hasMore)
             }
+
         })
         loadData(firstPage)
     }

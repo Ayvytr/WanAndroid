@@ -3,19 +3,13 @@ package com.ayvytr.wanandroid.ui.wx
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.coroutine.observer.WrapperObserver
-import com.ayvytr.ktx.ui.isGone
-import com.ayvytr.ktx.ui.isShow
-import com.ayvytr.logger.L
-import com.ayvytr.network.bean.ResponseWrapper
 import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
-import com.scwang.smart.refresh.header.ClassicsHeader
-import com.scwang.smart.refresh.layout.constant.RefreshState
 import kotlinx.android.synthetic.main.fragment_wx_article.*
 import kotlinx.android.synthetic.main.layout_refresh_and_state.*
 
@@ -36,49 +30,43 @@ class WxArticleFragment : BaseArticleFragment() {
         mViewModel.wxCategoryLiveData.observe(
             this,
             object : WrapperObserver<List<WxArticleCategory>>(this) {
-                override fun onSucceed(
-                    data: List<WxArticleCategory>,
-                    wrapper: ResponseWrapper<List<WxArticleCategory>>
-                ) {
+                override fun onSucceed(data: List<WxArticleCategory>) {
                     categoryAdapter.update(data)
                     categoryAdapter.resetIndex()
 
                     refresh_layout.autoRefresh()
                 }
-
             })
 
-        mViewModel.wxArticleLiveData.observe(this, object : WrapperObserver<List<Article>>(this) {
-            override fun onSucceed(data: List<Article>, wrapper: ResponseWrapper<List<Article>>) {
-                page = wrapper.page
-                mAdapter.update(data, wrapper.isLoadMore)
+        mViewModel.wxArticleLiveData.observe(
+            this,
+            object : WrapperListObserver<List<Article>>(this) {
+                override fun onSucceed(
+                    data: List<Article>,
+                    page: Int,
+                    loadMore: Boolean,
+                    hasMore: Boolean
+                ) {
+                    this@WxArticleFragment.page = page
+                    mAdapter.update(data, loadMore)
 
-                if (mAdapter.isEmpty()) {
-                    status_view.showEmpty(getString(R.string.search_no_value))
-                } else {
-                    status_view.showContent()
+                    if (mAdapter.isEmpty()) {
+                        status_view.showEmpty(getString(R.string.search_no_value))
+                    } else {
+                        status_view.showContent()
+                    }
+                    refresh_layout.setEnableLoadMore(hasMore)
+
+                    lastCategoryIndex = categoryAdapter.currentIndex
                 }
-                refresh_layout.setEnableLoadMore(wrapper.hasMore)
 
-                lastCategoryIndex = categoryAdapter.currentIndex
-            }
-
-            override fun onError(
-                exception: ResponseException?,
-                message: String,
-                messageStringId: Int
-            ) {
-                if (message.isNullOrEmpty()) {
-
-                } else {
-                    super.onError(exception, message, messageStringId)
+                override fun onError(exception: ResponseException) {
+                    super.onError(exception)
                     if (lastCategoryIndex != -1) {
                         categoryAdapter.currentIndex = lastCategoryIndex
                     }
                 }
-            }
-
-        })
+            })
     }
 
     override fun loadData(page: Int, isLoadMore: Boolean) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.smart
+import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.ktx.ui.show
 import com.ayvytr.network.bean.ResponseWrapper
@@ -34,10 +35,15 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
 
     override fun initLiveDataObserver() {
         super.initLiveDataObserver()
-        getListLiveData().observe(this, object : WrapperObserver<List<Article>>(this) {
-            override fun onSucceed(data: List<Article>, wrapper: ResponseWrapper<List<Article>>) {
-                page = wrapper.page
-                mAdapter.update(data, wrapper.isLoadMore)
+        getListLiveData().observe(this, object : WrapperListObserver<List<Article>>(this) {
+            override fun onSucceed(
+                data: List<Article>,
+                p: Int,
+                loadMore: Boolean,
+                hasMore: Boolean
+            ) {
+                page = p
+                mAdapter.update(data, loadMore)
 
                 if (mAdapter.isEmpty()) {
                     status_view.showEmpty(getString(R.string.search_no_value))
@@ -45,13 +51,13 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
                     status_view.showContent()
                 }
 
-                refresh_layout.setEnableLoadMore(wrapper.hasMore)
+                refresh_layout.setEnableLoadMore(hasMore)
                 refresh_layout.finishRefresh()
             }
 
         })
         mViewModel.collectLiveData.observe(this, object: WrapperObserver<Int>(this) {
-            override fun onSucceed(data: Int, wrapper: ResponseWrapper<Int>) {
+            override fun onSucceed(data: Int) {
                 val article = mAdapter.list[data]
                 article.collect = !article.collect
                 mAdapter.notifyItemChanged(data)

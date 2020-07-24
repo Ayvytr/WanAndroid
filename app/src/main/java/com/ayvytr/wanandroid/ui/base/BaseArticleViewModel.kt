@@ -4,14 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.network.ApiClient
 import com.ayvytr.network.bean.ResponseWrapper
-import com.ayvytr.network.wrap
 import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.bean.wrap
 import com.ayvytr.wanandroid.copy
 import com.ayvytr.wanandroid.db.DbManager
-import kotlinx.coroutines.Job
 
 /**
  * @author EDZ
@@ -35,9 +33,6 @@ class BaseArticleViewModel : BaseViewModel() {
     val collectListLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
     val collectLiveData = MutableLiveData<ResponseWrapper<Int>>()
 
-    private val jobMap by lazy {
-        hashMapOf<String, Job>()
-    }
 
     fun getMainArticle(page: Int, isLoadMore: Boolean = false) {
         launchWrapper(articleLiveData) {
