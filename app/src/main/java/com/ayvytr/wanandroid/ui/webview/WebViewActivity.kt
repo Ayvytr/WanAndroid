@@ -1,14 +1,12 @@
 package com.ayvytr.wanandroid.ui.webview
 
 import android.os.Bundle
-import android.os.Process
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.ayvytr.coroutine.BaseActivity
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.wanandroid.R
 import kotlinx.android.synthetic.main.activity_web_view.*
-import kotlin.system.exitProcess
 
 class WebViewActivity : BaseActivity<BaseViewModel>() {
     var url: String? = null
@@ -24,7 +22,7 @@ class WebViewActivity : BaseActivity<BaseViewModel>() {
         setSupportActionBar(toolbar)
         toolbar.setNavigationIcon(android.R.drawable.ic_menu_close_clear_cancel)
         toolbar.setNavigationOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         web_view.settings.javaScriptEnabled = true
@@ -37,6 +35,7 @@ class WebViewActivity : BaseActivity<BaseViewModel>() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 web_view.hideProgress()
+                toolbar.setNavigationIcon(if (web_view.canGoBack()) R.drawable.ic_menu_back else android.R.drawable.ic_menu_close_clear_cancel)
             }
         }
     }
