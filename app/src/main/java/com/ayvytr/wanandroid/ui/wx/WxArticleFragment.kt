@@ -5,6 +5,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.coroutine.observer.WrapperObserver
+import com.ayvytr.logger.L
 import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
@@ -93,6 +94,7 @@ class WxArticleFragment : BaseArticleFragment() {
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        refresh_layout.setEnableAutoLoadMore(false)
         categoryAdapter.itemClickListener = { item, i ->
             changeCategory(i)
         }
@@ -104,23 +106,11 @@ class WxArticleFragment : BaseArticleFragment() {
     }
 
     private fun changeCategory(i: Int) {
-        //第一种方案：正在刷新或者刷新待完成不让切换
-        if (i != categoryAdapter.currentIndex && !refresh_layout.isRefreshing && !refresh_layout.state.isFinishing) {
-//        if (i != categoryAdapter.currentIndex) {
+        //正在刷新或者刷新待完成不让切换
+        if (i != categoryAdapter.currentIndex && !refresh_layout.state.isOpening) {
             categoryAdapter.currentIndex = i
-
-            //下面方案不准确暂不使用
-//            if(refresh_layout.state.isFinishing || refresh_layout.state == RefreshState.Refreshing) {
-//            if(refresh_layout.state != RefreshState.None) {
-//            if((refresh_layout.refreshHeader as ClassicsHeader).isShow()) {
-//                L.e("正在刷新")
-//                loadData(firstPage)
-//            } else {
-//                L.e("autoRefresh")
-                refresh_layout.autoRefresh()
-//            }
+            refresh_layout.autoRefresh()
         }
-
     }
 
     override fun initData(savedInstanceState: Bundle?) {
