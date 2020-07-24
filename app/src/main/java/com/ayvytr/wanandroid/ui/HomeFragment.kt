@@ -12,28 +12,27 @@ import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import com.ayvytr.wanandroid.ui.ask.AskFragment
 import com.ayvytr.wanandroid.ui.my.MyFragment
-import com.ayvytr.wanandroid.ui.project.ProjectFragment
-import com.ayvytr.wanandroid.ui.square.SquareFragment
 import com.ayvytr.wanandroid.ui.top.TopFragment
 import com.ayvytr.wanandroid.ui.wx.WxArticleFragment
-import com.ayvytr.wanandroid.uisearch.SearchFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<BaseViewModel>() {
     private val fragments = listOf(
-        SearchFragment(),
-        TopFragment(),
-        AskFragment(),
         ArticleFragment(),
-        ProjectFragment(),
-        SquareFragment(),
+        AskFragment(),
+        TopFragment(),
         WxArticleFragment(),
         MyFragment()
     )
-    private val titles = listOf(
-        "搜一搜", "轮播和置顶", "问答", "首页文章", "最新项目", "广场", "公众号列表",
-        "我的"
-    )
+
+    private val titles by lazy {
+        listOf(
+            getString(R.string.home),
+            getString(R.string.ask_per_day),
+            "轮播和置顶", "公众号列表",
+            "我的"
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

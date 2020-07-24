@@ -15,6 +15,12 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 class MainActivity : BaseActivity<BaseViewModel>() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    val navIds = setOf(
+        R.id.nav_home,
+        R.id.nav_search,
+        R.id.nav_square,
+        R.id.nav_newest_project
+    )
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
@@ -22,11 +28,9 @@ class MainActivity : BaseActivity<BaseViewModel>() {
 
         setSupportActionBar(toolbar)
 
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.nav_home), drawer_layout)
+        appBarConfiguration = AppBarConfiguration(navIds, drawer_layout)
         val navController = findNavController(R.id.nav_host_fragment)
-        setupActionBarWithNavController(
-            navController, appBarConfiguration
-        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
 
     }

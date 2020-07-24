@@ -30,4 +30,9 @@
     <string name="inputed_password_not_same">输入密码不一致</string>
     <string name="collect">收藏</string>
     <string name="my_collect">我的收藏</string>
+    <string name="newest_project">最新项目</string>
+    <string name="square">广场</string>
+    <string name="home">首页</string>
+    <string name="ask_per_day">每日一问</string>
+    <string name="take_a_search">搜一搜</string>
 </resources>

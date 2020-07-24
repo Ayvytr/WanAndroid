@@ -8,13 +8,26 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
-<!--        <item-->
-<!--            android:id="@+id/nav_gallery"-->
-<!--            android:icon="@drawable/ic_menu_gallery"-->
-<!--            android:title="@string/menu_gallery" />-->
-<!--        <item-->
-<!--            android:id="@+id/nav_slideshow"-->
-<!--            android:icon="@drawable/ic_menu_slideshow"-->
-<!--            android:title="@string/menu_slideshow" />-->
+
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/take_a_search" />
+
+
+        <item
+            android:id="@+id/nav_square"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/newest_project" />
+
+    </group>
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_newest_project"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/newest_project" />
+
     </group>
 </menu>
