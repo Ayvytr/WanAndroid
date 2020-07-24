@@ -60,20 +60,21 @@ class BaseArticleViewModel : BaseViewModel() {
     }
 
     fun getWxArticle(id: Int, page: Int, isLoadMore: Boolean = false) {
-        var job = jobMap[wxArticleLiveData.toString()]
-        job?.cancel()
-        job = launchWrapper(wxArticleLiveData) {
+        cancelJob(wxArticleLiveData.toString())
+        val job = launchWrapper(wxArticleLiveData) {
             val wxArticle = api.getWxArticlesById(id, page)
             wxArticle.wrap(isLoadMore)
         }
-        jobMap[wxArticleLiveData.toString()] = job
+        addJob(wxArticleLiveData.toString(), job)
     }
 
     fun searchWxArticle(id: Int, key: String?, page: Int, isLoadMore: Boolean) {
-        launchWrapper(wxArticleLiveData) {
+        cancelJob(wxArticleLiveData.toString())
+        val job = launchWrapper(wxArticleLiveData) {
             val wxArticle = api.searchWxArticle(id, page, key)
             wxArticle.wrap(isLoadMore)
         }
+        addJob(wxArticleLiveData.toString(), job)
     }
 
     fun getAskArticle(page: Int, isLoadMore: Boolean = false) {
