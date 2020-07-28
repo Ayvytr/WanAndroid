@@ -22,12 +22,8 @@ abstract class BaseListFragment<T : BaseViewModel, B> : BaseFragment<T>() {
     protected var firstPage = 0
     protected var page = firstPage
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.layout_refresh_and_state, container, false)
+    override fun getLayoutId(): Int {
+        return R.layout.layout_refresh_and_state
     }
 
     override fun initView(savedInstanceState: Bundle?) {

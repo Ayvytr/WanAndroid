@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.parseAsHtml
+import com.ayvytr.adapter.SmartContainer
 import com.ayvytr.adapter.smart
 import com.ayvytr.coroutine.BaseFragment
 import com.ayvytr.coroutine.observer.WrapperObserver

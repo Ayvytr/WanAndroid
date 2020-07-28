@@ -6,6 +6,7 @@ import com.ayvytr.network.ApiClient
 import com.ayvytr.network.bean.ResponseWrapper
 import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.Article
+import com.ayvytr.wanandroid.bean.Banner
 import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.bean.wrap
 import com.ayvytr.wanandroid.copy
@@ -33,6 +34,8 @@ class BaseArticleViewModel : BaseViewModel() {
     val collectListLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
     val collectLiveData = MutableLiveData<ResponseWrapper<Int>>()
 
+    val bannerLiveData = MutableLiveData<ResponseWrapper<List<Banner>>>()
+    val topArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
     fun getMainArticle(page: Int, isLoadMore: Boolean = false) {
         launchWrapper(articleLiveData) {
@@ -109,4 +112,16 @@ class BaseArticleViewModel : BaseViewModel() {
             value.wrap().copy(position)
         }
     }
+
+
+    fun getBanner() {
+        launchWrapper(bannerLiveData) {
+            api.getBanner().wrap()
+        }
+    }
+
+    fun getTopArticle() {
+        launchWrapper(topArticleLiveData) { api.getTopArticles().wrap() }
+    }
+
 }

@@ -20,7 +20,7 @@ class HomeFragment : BaseFragment<BaseViewModel>() {
     private val fragments = listOf(
         ArticleFragment(),
         AskFragment(),
-        TopFragment(),
+//        TopFragment(),
         WxArticleFragment(),
         MyFragment()
     )
@@ -29,7 +29,8 @@ class HomeFragment : BaseFragment<BaseViewModel>() {
         listOf(
             getString(R.string.home),
             getString(R.string.ask_per_day),
-            "轮播和置顶", "公众号列表",
+//            "轮播和置顶",
+            "公众号列表",
             "我的"
         )
     }
