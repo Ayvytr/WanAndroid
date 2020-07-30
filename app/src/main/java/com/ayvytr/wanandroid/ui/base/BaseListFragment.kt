@@ -54,9 +54,13 @@ abstract class BaseListFragment<T : BaseViewModel, B> : BaseFragment<T>() {
                 status_view.showLoading()
             }
         } else {
-            refresh_layout.finishRefresh()
-            refresh_layout.finishLoadMore()
+            finishRefreshAndLoad()
         }
+    }
+
+    fun finishRefreshAndLoad() {
+        refresh_layout.finishRefresh()
+        refresh_layout.finishLoadMore()
     }
 
     override fun showMessage(message: String) {

@@ -32,6 +32,7 @@ class App : Application() {
                 Const.WANANDROID_BASE_URL, 20, cache = null,
                 enableCookieJar = true
             )
+//            ApiClient.logInterceptor.showLog = false
             DbManager.getInstance().init(applicationContext)
             MMKV.initialize(ContextProvider.getContext())
             Glide.with(applicationContext)

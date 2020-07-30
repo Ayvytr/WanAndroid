@@ -1,6 +1,7 @@
 package com.ayvytr.wanandroid.bean
 
 import com.ayvytr.network.bean.ResponseWrapper
+import com.ayvytr.network.exception.ResponseException
 
 
 /**
@@ -39,18 +40,18 @@ fun BaseData<MainArticle>.wrap(
         isLoadMore,
         data?.hasMore() ?: false,
         isSucceed(),
-        code = errorCode,
-        message = errorMsg,
-        exception = Throwable(errorMsg)
+        ResponseException(errorMsg, errorCode, cause = Throwable(errorMsg))
     )
 }
 
 fun <T> BaseData<T>.wrap(): ResponseWrapper<T> {
     return ResponseWrapper(
         this.data, isSucceed = isSucceed(),
-        code = errorCode,
-        message = errorMsg,
-        exception = if (isFailed()) Exception(errorMsg) else null
+        exception = ResponseException(
+            errorMsg,
+            errorCode,
+            cause = if (isFailed()) Exception(errorMsg) else null
+        )
     )
 }
 

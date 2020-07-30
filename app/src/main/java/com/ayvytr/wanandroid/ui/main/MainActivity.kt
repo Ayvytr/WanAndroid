@@ -18,6 +18,7 @@ class MainActivity : BaseActivity<BaseViewModel>() {
     val navIds = setOf(
         R.id.nav_home,
         R.id.nav_search,
+        R.id.nav_system,
         R.id.nav_square,
         R.id.nav_newest_project
     )

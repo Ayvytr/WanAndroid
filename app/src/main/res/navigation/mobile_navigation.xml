@@ -22,6 +22,41 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_system"
+        android:name="com.ayvytr.wanandroid.ui.system.SystemFragment"
+        android:label="@string/system_knowledge">
+
+        <action
+            android:id="@+id/nav_goto_system_list"
+            app:destination="@id/nav_system_list">
+<!--            <argument-->
+<!--                android:name="id"-->
+<!--                app:argType="integer" />-->
+            <argument
+                android:name="systemTree"
+                app:argType="com.ayvytr.wanandroid.bean.SystemTree" />
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_system_list"
+        android:name="com.ayvytr.wanandroid.ui.system.SystemListFragment"
+        android:label="@string/system_knowledge">
+<!--        <argument-->
+<!--            android:name="id"-->
+<!--            app:argType="integer" />-->
+        <argument
+            android:name="systemTree"
+            app:argType="com.ayvytr.wanandroid.bean.SystemTree" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_newest_project"
         android:name="com.ayvytr.wanandroid.ui.project.ProjectFragment"
         android:label="@string/newest_project" />

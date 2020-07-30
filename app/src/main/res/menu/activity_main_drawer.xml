@@ -14,11 +14,15 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/take_a_search" />
 
+        <item
+            android:id="@+id/nav_system"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/system_knowledge" />
 
         <item
             android:id="@+id/nav_square"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/newest_project" />
+            android:title="@string/square" />
 
     </group>
 

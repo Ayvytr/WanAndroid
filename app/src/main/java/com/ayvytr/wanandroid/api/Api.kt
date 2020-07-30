@@ -90,16 +90,16 @@ interface Api {
      * 体系数据，主要标识的网站内容的体系结构，二级目录。
      */
     @GET("tree/json")
-    suspend fun getSystemTree(): BaseData<SystemTree>
+    suspend fun getSystemTree(): BaseData<List<SystemTree>>
 
     /**
      * 知识体系下的文章
      * @param page 0开始
      */
-    @GET("article/list/{page}/json?cid={id}")
+    @GET("article/list/{page}/json")
     suspend fun getKnowledgeSystemArticle(
-        @Path("id") id: Int,
-        @Path("page") page: Int
+        @Path("page") page: Int,
+        @Query("cid") id: Int
     ): BaseData<MainArticle>
 
     /**

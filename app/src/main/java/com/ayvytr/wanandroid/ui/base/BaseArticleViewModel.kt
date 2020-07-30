@@ -15,7 +15,7 @@ import com.ayvytr.wanandroid.db.DbManager
 /**
  * @author EDZ
  */
-class BaseArticleViewModel : BaseViewModel() {
+open class BaseArticleViewModel : BaseViewModel() {
     val dao = DbManager.getInstance().db.wanDao()
 
     val api = ApiClient.create(Api::class.java)

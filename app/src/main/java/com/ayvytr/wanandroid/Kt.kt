@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.ayvytr.ktx.context.getInputMethodManager
 import com.ayvytr.network.bean.ResponseWrapper
+import com.ayvytr.network.exception.ResponseException
 import com.bumptech.glide.Glide
 
 //refreshLayout.getState() == RefreshState.None //空闲状态
@@ -43,10 +44,7 @@ fun <T, R> ResponseWrapper<T>.copy(r: R): ResponseWrapper<R> {
         isLoadMore,
         hasMore,
         isSucceed,
-        message,
-        code,
-        exception,
-        messageStringId
+        ResponseException(message, code, messageStringId, cause)
     )
 }
 
