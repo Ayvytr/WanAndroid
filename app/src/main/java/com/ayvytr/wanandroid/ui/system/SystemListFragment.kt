@@ -2,16 +2,16 @@ package com.ayvytr.wanandroid.ui.system
 
 import android.os.Bundle
 import androidx.core.text.parseAsHtml
-import androidx.navigation.fragment.navArgs
 import com.ayvytr.adapter.SmartAdapter
 import com.ayvytr.adapter.smart
 import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.ktx.ui.setActivityTitle
-import com.ayvytr.logger.L
 import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
+import com.ayvytr.wanandroid.argNotNull
 import com.ayvytr.wanandroid.bean.Article
+import com.ayvytr.wanandroid.bean.SystemTree
 import com.ayvytr.wanandroid.ui.base.BaseListFragment
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
 import kotlinx.android.synthetic.main.item_article_backup.view.*
@@ -22,7 +22,10 @@ import org.jetbrains.anko.startActivity
  * @author Administrator
  */
 class SystemListFragment : BaseListFragment<SystemViewModel, Article>() {
-    val args: SystemListFragmentArgs by navArgs()
+//    val args: SystemListFragmentArgs by navArgs()
+
+    val category by argNotNull<String>("category")
+    val systemTree by argNotNull<SystemTree>("systemTree")
 
     override fun getAdapter(): SmartAdapter<Article> {
         return smart(listOf(), R.layout.item_article_backup, { it, position ->
@@ -80,7 +83,7 @@ class SystemListFragment : BaseListFragment<SystemViewModel, Article>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        setActivityTitle("${args.category}-${args.systemTree.name}")
+        setActivityTitle("${category}-${systemTree.name}")
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -89,7 +92,7 @@ class SystemListFragment : BaseListFragment<SystemViewModel, Article>() {
     }
 
     override fun loadData(page: Int, isLoadMore: Boolean) {
-        mViewModel.getSystemList(args.systemTree.id, page, isLoadMore)
+        mViewModel.getSystemList(systemTree.id, page, isLoadMore)
     }
 
     private fun performCollect(id: Int, collect: Boolean, position: Int) {
