@@ -37,4 +37,6 @@
     <string name="take_a_search">搜一搜</string>
     <string name="system_knowledge">体系</string>
     <string name="top_article">置顶文章</string>
+    <string name="canceled_collect">已取消收藏</string>
+    <string name="collected">已收藏</string>
 </resources>

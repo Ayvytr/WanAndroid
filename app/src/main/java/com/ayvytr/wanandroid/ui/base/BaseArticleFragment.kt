@@ -51,6 +51,7 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
             override fun onSucceed(data: Int) {
                 val article = mAdapter.list[data]
                 article.collect = !article.collect
+                showMessage(if(article.collect) R.string.collected else R.string.canceled_collect)
                 mAdapter.notifyItemChanged(data)
             }
         })

@@ -1,9 +1,7 @@
 package com.ayvytr.wanandroid.ui.system
 
 import android.os.Bundle
-import androidx.core.text.parseAsHtml
 import com.ayvytr.adapter.SmartAdapter
-import com.ayvytr.adapter.smart
 import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.ktx.ui.setActivityTitle
@@ -12,11 +10,9 @@ import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.argNotNull
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.SystemTree
+import com.ayvytr.wanandroid.ui.base.BaseArticleAdapter
 import com.ayvytr.wanandroid.ui.base.BaseListFragment
-import com.ayvytr.wanandroid.ui.webview.WebViewActivity
-import kotlinx.android.synthetic.main.item_article.view.*
 import kotlinx.android.synthetic.main.layout_refresh_and_state.*
-import org.jetbrains.anko.startActivity
 
 /**
  * @author Administrator
@@ -28,22 +24,8 @@ class SystemListFragment : BaseListFragment<SystemViewModel, Article>() {
     val systemTree by argNotNull<SystemTree>("systemTree")
 
     override fun getAdapter(): SmartAdapter<Article> {
-        return smart(listOf(), R.layout.item_article, { it, position ->
-            tv_title.text = it.title.parseAsHtml()
-            tv_author.text = it.author
-            tv_date.text = it.niceDate
-            iv_collect.isSelected = it.collect
-            iv_collect.setOnClickListener { _ ->
-                performCollect(it.id, it.collect, position)
-            }
-        }) {
-            itemClick = { t, i ->
-                requireContext().startActivity<WebViewActivity>(
-                    WebViewActivity.URL to t.link,
-                    WebViewActivity.TITLE to t.title
-                )
-            }
-            diff()
+        return BaseArticleAdapter(requireContext()) { it, position ->
+            performCollect(it.id, it.collect, position)
         }
     }
 
@@ -76,6 +58,7 @@ class SystemListFragment : BaseListFragment<SystemViewModel, Article>() {
             override fun onSucceed(data: Int) {
                 val article = mAdapter.list[data]
                 article.collect = !article.collect
+                showMessage(if(article.collect) R.string.collected else R.string.canceled_collect)
                 mAdapter.notifyItemChanged(data)
             }
         })
