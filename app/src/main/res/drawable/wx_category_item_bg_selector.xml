@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_selected="true">
-        <color android:color="@color/aero"/>
+        <ripple xmlns:tools="http://schemas.android.com/tools"
+            android:color="@color/colorPrimary"
+            tools:targetApi="lollipop">
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/pink" />
+                </shape>
+            </item>
+        </ripple>    </item>
+    <item android:state_selected="false">
+        <ripple xmlns:tools="http://schemas.android.com/tools"
+            android:color="@color/aero"
+            tools:targetApi="lollipop">
+            <item android:id="@android:id/mask">
+                <shape android:shape="rectangle">
+                    <solid android:color="#eee" />
+                </shape>
+            </item>
+        </ripple>
     </item>
 </selector>
