@@ -1,23 +1,14 @@
 package com.ayvytr.wanandroid.ui.base
 
 import android.os.Bundle
-import androidx.core.text.parseAsHtml
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.ayvytr.adapter.SmartAdapter
-import com.ayvytr.adapter.smart
 import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.coroutine.observer.WrapperObserver
-import com.ayvytr.ktx.ui.show
 import com.ayvytr.network.bean.ResponseWrapper
-import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
-import com.ayvytr.wanandroid.loadImage
-import com.ayvytr.wanandroid.ui.webview.WebViewActivity
-import kotlinx.android.synthetic.main.item_article.view.*
 import kotlinx.android.synthetic.main.layout_refresh_and_state.*
-import org.jetbrains.anko.startActivity
 
 /**
  * @author EDZ
@@ -73,27 +64,12 @@ open class BaseArticleFragment : BaseListFragment<BaseArticleViewModel, Article>
 
 
     override fun getAdapter(): SmartAdapter<Article> {
-        return smart(listOf(), R.layout.item_article, { it, position ->
-            iv.loadImage(it.envelopePic)
-            tv_title.text = it.title.parseAsHtml()
-            tv_desc.text = it.desc?.parseAsHtml()
-            tv_desc.show(it.title != it.desc)
-            iv_collect.isSelected = it.collect
-            iv_collect.setOnClickListener { _ ->
-                performCollect(it.id, it.collect, position)
-            }
-        }) {
-            itemClick = { t, i ->
-                requireContext().startActivity<WebViewActivity>(
-                    WebViewActivity.URL to t.link,
-                    WebViewActivity.TITLE to t.title
-                )
-            }
-            diff()
+        return BaseArticleAdapter(requireContext()) {it, position->
+            performCollect(it.id, it.collect, position)
         }
     }
 
-    private fun performCollect(id: Int, isCollect: Boolean, position: Int) {
+    fun performCollect(id: Int, isCollect: Boolean, position: Int) {
         mViewModel.collect(id, isCollect, position)
     }
 

@@ -1,8 +1,6 @@
 package com.ayvytr.wanandroid.ui.article
 
 import android.os.Bundle
-import androidx.core.text.parseAsHtml
-import com.ayvytr.adapter.smart
 import com.ayvytr.coroutine.observer.WrapperObserver
 import com.ayvytr.ktx.context.dp
 import com.ayvytr.ktx.ui.hide
@@ -11,16 +9,13 @@ import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.Banner
-import com.ayvytr.wanandroid.loadImage
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import com.ayvytr.wanandroid.ui.top.ImageAdapter
-import com.ayvytr.wanandroid.ui.webview.WebViewActivity
+import com.ayvytr.wanandroid.ui.top.TopArticleAdapter
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.DepthPageTransformer
 import kotlinx.android.synthetic.main.fragment_article.*
-import kotlinx.android.synthetic.main.item_article.view.*
-import org.jetbrains.anko.startActivity
 
 /**
  * @author EDZ
@@ -29,20 +24,7 @@ import org.jetbrains.anko.startActivity
 class ArticleFragment : BaseArticleFragment() {
     private val bannerAdapter by lazy { ImageAdapter(listOf()) }
     private val topArticleAdapter by lazy {
-        smart(listOf<Article>(), R.layout.item_article, { it, _->
-            iv.loadImage(it.envelopePic)
-            tv_title.text = it.title.parseAsHtml()
-            tv_desc.text = it.desc?.parseAsHtml()
-            tv_desc.show(it.title != it.desc)
-        }) {
-            itemClick = { t, i ->
-                context?.startActivity<WebViewActivity>(
-                    WebViewActivity.URL to t.link,
-                    WebViewActivity.TITLE to t.title
-                )
-            }
-            diff()
-        }
+        TopArticleAdapter(requireContext())
     }
 
     override fun getLayoutId(): Int {

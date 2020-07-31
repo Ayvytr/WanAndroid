@@ -14,7 +14,7 @@ import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.SystemTree
 import com.ayvytr.wanandroid.ui.base.BaseListFragment
 import com.ayvytr.wanandroid.ui.webview.WebViewActivity
-import kotlinx.android.synthetic.main.item_article_backup.view.*
+import kotlinx.android.synthetic.main.item_article.view.*
 import kotlinx.android.synthetic.main.layout_refresh_and_state.*
 import org.jetbrains.anko.startActivity
 
@@ -28,10 +28,10 @@ class SystemListFragment : BaseListFragment<SystemViewModel, Article>() {
     val systemTree by argNotNull<SystemTree>("systemTree")
 
     override fun getAdapter(): SmartAdapter<Article> {
-        return smart(listOf(), R.layout.item_article_backup, { it, position ->
+        return smart(listOf(), R.layout.item_article, { it, position ->
             tv_title.text = it.title.parseAsHtml()
             tv_author.text = it.author
-            tv_date.text = it.niceShareDate
+            tv_date.text = it.niceDate
             iv_collect.isSelected = it.collect
             iv_collect.setOnClickListener { _ ->
                 performCollect(it.id, it.collect, position)

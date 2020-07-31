@@ -12,7 +12,6 @@ import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.ui.article.ArticleFragment
 import com.ayvytr.wanandroid.ui.ask.AskFragment
 import com.ayvytr.wanandroid.ui.my.MyFragment
-import com.ayvytr.wanandroid.ui.top.TopFragment
 import com.ayvytr.wanandroid.ui.wx.WxArticleFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
