@@ -9,7 +9,8 @@
                     <solid android:color="@color/pink" />
                 </shape>
             </item>
-        </ripple>    </item>
+        </ripple>
+    </item>
     <item android:state_selected="false">
         <ripple xmlns:tools="http://schemas.android.com/tools"
             android:color="@color/aero"
