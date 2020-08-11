@@ -5,11 +5,11 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import com.ayvytr.coroutine.observer.WrapperListObserver
 import com.ayvytr.coroutine.observer.WrapperObserver
-import com.ayvytr.logger.L
 import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.WxArticleCategory
+import com.ayvytr.wanandroid.ui.base.BaseArticleAdapter
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import kotlinx.android.synthetic.main.fragment_wx_article.*
 import kotlinx.android.synthetic.main.layout_refresh_and_state.*
@@ -115,6 +115,7 @@ class WxArticleFragment : BaseArticleFragment() {
 
     override fun initData(savedInstanceState: Bundle?) {
         firstPage = 1
+        (mAdapter as BaseArticleAdapter).showTypeAndTag = false
 
         mViewModel.getWxArticleCategory()
     }

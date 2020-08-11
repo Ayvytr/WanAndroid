@@ -50,4 +50,15 @@ data class Article(
     val userId: Int,
     val visible: Int,
     val zan: Int
-)
+) {
+    fun simpleNiceDate(): String {
+        return niceDate.run {
+            val i = indexOf(' ')
+            if (i >= 0) {
+                substring(0, i)
+            } else {
+                this
+            }
+        }
+    }
+}

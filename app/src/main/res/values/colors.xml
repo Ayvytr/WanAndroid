@@ -3,4 +3,12 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="text_main">#000</color>
+    <color name="text_high_light">@color/colorAccent</color>
+    <color name="text_hint">@color/dark_gray</color>
+
+    <color name="bg">@color/white</color>
+    <color name="bg_high_light">@color/pink</color>
+    <color name="bg_2">@color/white</color>
 </resources>

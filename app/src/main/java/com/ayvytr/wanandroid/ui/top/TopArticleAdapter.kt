@@ -23,7 +23,9 @@ open class TopArticleAdapter(
         map(R.layout.item_article, 0) { it, position ->
             tv_title.text = it.title.parseAsHtml()
             tv_author.text = it.author
-            tv_date.text = it.niceDate
+            tv_date.text = it.simpleNiceDate()
+            tv_type.text = it.superChapterName
+            tv_tag.text = it.chapterName
             iv_collect.hide()
             iv_collect.isSelected = it.collect
             iv_collect.setOnClickListener { _ ->
