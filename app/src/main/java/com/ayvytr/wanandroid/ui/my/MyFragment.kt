@@ -36,7 +36,7 @@ class MyFragment : BaseFragment<LoginViewModel>() {
     }
 
     override fun initLiveDataObserver() {
-        mViewModel.logoutLiveData.observe(this, Observer {
+        mViewModel.logoutLiveData.observe(this, {
             initUserInfo()
         })
     }
