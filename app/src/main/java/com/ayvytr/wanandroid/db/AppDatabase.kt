@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.ayvytr.wanandroid.bean.Article
 
-@Database(entities = arrayOf(Article::class), version = 1)
+@Database(entities = [Article::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun wanDao(): WanDao
+    abstract fun articleDao(): ArticleDao
 }

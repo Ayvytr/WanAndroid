@@ -4,19 +4,19 @@ import androidx.lifecycle.MutableLiveData
 import com.ayvytr.coroutine.viewmodel.BaseViewModel
 import com.ayvytr.network.ApiClient
 import com.ayvytr.network.bean.ResponseWrapper
+import com.ayvytr.network.wrap
 import com.ayvytr.wanandroid.api.Api
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.Banner
 import com.ayvytr.wanandroid.bean.WxArticleCategory
 import com.ayvytr.wanandroid.bean.wrap
 import com.ayvytr.wanandroid.copy
-import com.ayvytr.wanandroid.db.DbManager
+import com.ayvytr.wanandroid.db.Db
 
 /**
  * @author EDZ
  */
 open class BaseArticleViewModel : BaseViewModel() {
-    val dao = DbManager.getInstance().db.wanDao()
 
     val api = ApiClient.create(Api::class.java)
     val articleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
@@ -33,9 +33,12 @@ open class BaseArticleViewModel : BaseViewModel() {
 
     val collectListLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
     val collectLiveData = MutableLiveData<ResponseWrapper<Int>>()
+    val collectTopLiveData = MutableLiveData<ResponseWrapper<Int>>()
 
     val bannerLiveData = MutableLiveData<ResponseWrapper<List<Banner>>>()
     val topArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
+
+    val readArticleLiveData = MutableLiveData<ResponseWrapper<List<Article>>>()
 
     fun getMainArticle(page: Int, isLoadMore: Boolean = false) {
         launchWrapper(articleLiveData) {
@@ -113,6 +116,12 @@ open class BaseArticleViewModel : BaseViewModel() {
         }
     }
 
+    fun collectTop(id: Int, collect: Boolean, position: Int) {
+        launchWrapper(collectTopLiveData) {
+            val value = if (collect) api.cancelCollect(id) else api.collectArticleById(id)
+            value.wrap().copy(position)
+        }
+    }
 
     fun getBanner() {
         launchWrapper(bannerLiveData) {
@@ -122,6 +131,12 @@ open class BaseArticleViewModel : BaseViewModel() {
 
     fun getTopArticle() {
         launchWrapper(topArticleLiveData) { api.getTopArticles().wrap() }
+    }
+
+    fun getReadArticleList(page: Int, loadMore: Boolean) {
+        launchWrapper(readArticleLiveData) {
+            Db.articleDao.getArticleLimit(page).wrap(isLoadMore = loadMore)
+        }
     }
 
 }

@@ -4,16 +4,14 @@ import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
 import android.os.Process
-import androidx.lifecycle.LifecycleObserver
 import com.ayvytr.ktx.provider.ContextProvider
 import com.ayvytr.network.ApiClient
-import com.ayvytr.wanandroid.db.DbManager
+import com.ayvytr.wanandroid.db.Db
 import com.bumptech.glide.Glide
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import leakcanary.LeakCanary
 
 
 /**
@@ -33,7 +31,7 @@ class App : Application() {
                 enableCookieJar = true
             )
 //            ApiClient.logInterceptor.showLog = false
-            DbManager.getInstance().init(applicationContext)
+            Db.init(applicationContext)
             MMKV.initialize(ContextProvider.getContext())
             Glide.with(applicationContext)
 

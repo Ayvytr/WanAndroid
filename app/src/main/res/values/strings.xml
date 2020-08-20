@@ -39,4 +39,6 @@
     <string name="top_article">置顶</string>
     <string name="canceled_collect">已取消收藏</string>
     <string name="collected">已收藏</string>
+    <string name="had_read">已读</string>
+    <string name="had_read_local_save">已读（本地保存）</string>
 </resources>

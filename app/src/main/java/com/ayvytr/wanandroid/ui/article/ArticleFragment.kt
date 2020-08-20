@@ -9,9 +9,9 @@ import com.ayvytr.network.exception.ResponseException
 import com.ayvytr.wanandroid.R
 import com.ayvytr.wanandroid.bean.Article
 import com.ayvytr.wanandroid.bean.Banner
+import com.ayvytr.wanandroid.ui.base.BaseArticleAdapter
 import com.ayvytr.wanandroid.ui.base.BaseArticleFragment
 import com.ayvytr.wanandroid.ui.top.ImageAdapter
-import com.ayvytr.wanandroid.ui.top.TopArticleAdapter
 import com.youth.banner.config.IndicatorConfig
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.DepthPageTransformer
@@ -24,8 +24,13 @@ import kotlinx.android.synthetic.main.fragment_article.*
 class ArticleFragment : BaseArticleFragment() {
     private val bannerAdapter by lazy { ImageAdapter(listOf()) }
     private val topArticleAdapter by lazy {
-        TopArticleAdapter(requireContext())
+        val temp = BaseArticleAdapter(requireContext()) { it, i ->
+            performCollectTop(it.id, it.collect, i)
+        }
+        temp.isTopArticle = true
+        temp
     }
+
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_article
@@ -68,6 +73,9 @@ class ArticleFragment : BaseArticleFragment() {
                 if (data.isEmpty()) {
 //                    status_view.showEmpty()
                 } else {
+                    data.forEach {
+                        it.isTop = true
+                    }
                     topArticleAdapter.update(data)
 //                    status_view.showContent()
                 }
@@ -77,6 +85,14 @@ class ArticleFragment : BaseArticleFragment() {
             override fun onError(exception: ResponseException) {
                 super.onError(exception)
                 refresh_layout.finishRefresh()
+            }
+        })
+        mViewModel.collectTopLiveData.observe(this, object: WrapperObserver<Int>(this) {
+            override fun onSucceed(data: Int) {
+                val article = topArticleAdapter.list[data]
+                article.collect = !article.collect
+                showMessage(if(article.collect) R.string.collected else R.string.canceled_collect)
+                topArticleAdapter.notifyItemChanged(data)
             }
         })
     }
@@ -89,6 +105,10 @@ class ArticleFragment : BaseArticleFragment() {
         super.initData(savedInstanceState)
         mViewModel.getBanner()
         mViewModel.getTopArticle()
+    }
+
+    private fun performCollectTop(id: Int, collect: Boolean, i: Int) {
+        mViewModel.collectTop(id, collect, i)
     }
 }
 

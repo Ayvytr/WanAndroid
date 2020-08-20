@@ -17,6 +17,7 @@ class MainActivity : BaseActivity<BaseViewModel>() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     val navIds = setOf(
         R.id.nav_home,
+        R.id.nav_had_read,
         R.id.nav_search,
         R.id.nav_system,
         R.id.nav_square,

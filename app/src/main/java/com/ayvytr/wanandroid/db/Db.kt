@@ -2,27 +2,24 @@ package com.ayvytr.wanandroid.db
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 /**
  * @author Administrator
  */
 
-class DbManager private constructor() {
+object Db {
     lateinit var db: AppDatabase
+    lateinit var articleDao: ArticleDao
 
     fun init(context: Context) {
         db = Room.databaseBuilder(
             context.applicationContext,
             AppDatabase::class.java, "db"
-        ).build()
+        ).allowMainThreadQueries()
+            .build()
+        articleDao = db.articleDao()
     }
 
-    companion object {
-        private val INSTANCE = DbManager()
-
-        fun getInstance(): DbManager {
-            return INSTANCE
-        }
-
-    }
 }
